@@ -73,6 +73,7 @@
                 android:layout_marginBottom="20dp"
                 app:boxStrokeColor="@android:color/darker_gray"
                 app:boxStrokeWidth="3dp"
+                app:counterMaxLength="30"
                 >
 
                 <android.support.design.widget.TextInputEditText
@@ -102,6 +103,7 @@
                 app:passwordToggleTint="@android:color/white"
                 app:passwordToggleEnabled="true"
                 app:boxStrokeWidth="3dp"
+                app:counterMaxLength="30"
                 >
 
                 <android.support.design.widget.TextInputEditText
