@@ -9,34 +9,34 @@
     >
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:layout_marginEnd="236dp"
-        android:layout_marginRight="236dp"
+        android:layout_width="115dp"
+        android:layout_height="116dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="136dp"
+        android:layout_marginRight="136dp"
         android:src="@drawable/background_left"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="204dp"
-        android:layout_marginLeft="204dp"
-        android:layout_marginBottom="304dp"
-        android:src="@drawable/background_top"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="204dp"
-        android:layout_marginLeft="204dp"
-        android:layout_marginTop="364dp"
+        android:layout_width="119dp"
+        android:layout_height="101dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginTop="136dp"
         android:src="@drawable/background_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="146dp"
+        android:layout_height="142dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginLeft="112dp"
+        android:layout_marginBottom="116dp"
+        android:src="@drawable/background_top"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,8 +52,8 @@
             android:gravity="center"
             >
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/logo_white"
                 android:layout_gravity="center"
                 />
@@ -64,7 +64,7 @@
                 android:textColor="@android:color/white"
                 android:text="@string/login_title"
                 android:layout_gravity="center"
-                android:textSize="30sp"
+                android:textSize="12sp"
                 />
 
         </LinearLayout>
@@ -87,7 +87,7 @@
                 app:boxCornerRadiusTopEnd="@dimen/loginTextBoxCorner"
                 app:boxCornerRadiusTopStart="@dimen/loginTextBoxCorner"
                 android:textColorHint="@android:color/darker_gray"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="5dp"
                 app:boxStrokeColor="@android:color/white"
                 app:boxStrokeWidth="3dp"
                 app:counterMaxLength="30"
@@ -95,11 +95,11 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/usernameId"
-                    android:layout_width="@dimen/boxWidthMedium"
-                    android:layout_height="@dimen/boxheightMedium"
+                    android:layout_width="@dimen/boxWidthSmall"
+                    android:layout_height="@dimen/boxheightSmall"
                     android:hint="@string/username_title"
                     android:textColorHint="@android:color/white"
-                    android:textSize="@dimen/loginTextSizeMedium"
+                    android:textSize="@dimen/loginTextSizeSmall"
                     android:textColor="@android:color/white"
                     android:singleLine="true"
                     android:drawableEnd="@drawable/username_white_24dp"
@@ -125,11 +125,11 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/passwordId"
-                    android:layout_width="@dimen/boxWidthMedium"
-                    android:layout_height="@dimen/boxheightMedium"
+                    android:layout_width="@dimen/boxWidthSmall"
+                    android:layout_height="@dimen/boxheightSmall"
                     android:hint="@string/password_title"
                     android:textColorHint="@android:color/white"
-                    android:textSize="@dimen/loginTextSizeMedium"
+                    android:textSize="@dimen/loginTextSizeSmall"
                     android:textColor="@android:color/white"
                     android:singleLine="true"
                     android:inputType="textPassword"
@@ -141,20 +141,20 @@
 
             <Button
                 android:id="@+id/signInId"
-                android:layout_width="@dimen/boxWidthMedium"
-                android:layout_height="@dimen/boxheightMedium"
+                android:layout_width="@dimen/boxWidthSmall"
+                android:layout_height="@dimen/boxheightSmall"
                 android:background="@drawable/login_button_theme"
                 android:text="@string/sign_in_title"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/loginTextSizeMedium"
-                android:layout_margin="20dp"
+                android:textSize="@dimen/loginTextSizeSmall"
+                android:layout_margin="5dp"
                 />
             <TextView
                 android:id="@+id/forgetPasswordId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/forget_password_title"
-                android:textSize="@dimen/loginTextSizeMedium"
+                android:textSize="@dimen/loginTextSizeSmall"
                 android:textColor="@android:color/white"
             />
             <TextView
@@ -162,11 +162,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/no_account_title"
-                android:textSize="@dimen/loginTextSizeMedium"
+                android:textSize="@dimen/loginTextSizeSmall"
                 android:textColor="@android:color/white"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="15dp"
-            />
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+            /><!---->
         </LinearLayout>
 
     </LinearLayout>

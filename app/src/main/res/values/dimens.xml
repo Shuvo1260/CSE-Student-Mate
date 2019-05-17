@@ -1,17 +1,17 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="loginTextBoxCorner">100dp</dimen>
-    <dimen name="loginTextSizeSmall">20sp</dimen>
+    <dimen name="loginTextSizeSmall">6sp</dimen>
     <dimen name="loginTextSizeMedium">20sp</dimen>
-    <dimen name="loginTextSizeLarge">20sp</dimen>
-    <dimen name="loginTextSizeExtraLarge">20sp</dimen>
+    <dimen name="loginTextSizeLarge">22sp</dimen>
+    <dimen name="loginTextSizeExtraLarge">22sp</dimen>
 
-    <dimen name="boxWidthSmall">270dp</dimen>
-    <dimen name="boxheightSmall">70dp</dimen>
-    <dimen name="boxWidthMedium">270dp</dimen>
-    <dimen name="boxheightMedium">70dp</dimen>
+    <dimen name="boxWidthSmall">100dp</dimen>
+    <dimen name="boxheightSmall">20dp</dimen>
+    <dimen name="boxWidthMedium">250dp</dimen>
+    <dimen name="boxheightMedium">50dp</dimen>
     <dimen name="boxWidthLarge">270dp</dimen>
     <dimen name="boxheightLarge">70dp</dimen>
-    <dimen name="boxWidthExtraLarge">270dp</dimen>
-    <dimen name="boxheightExtraLarge">70dp</dimen>
+    <dimen name="boxWidthExtraLarge">280dp</dimen>
+    <dimen name="boxheightExtraLarge">60dp</dimen>
 </resources>
