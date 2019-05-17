@@ -68,99 +68,106 @@
                 />
 
         </LinearLayout>
-
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:theme="@style/Logintheme">
+            android:layout_gravity="center">
 
-            <android.support.design.widget.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:textColorHint="@android:color/darker_gray"
-                app:boxCornerRadiusBottomEnd="@dimen/loginTextBoxCorner"
-                app:boxCornerRadiusBottomStart="@dimen/loginTextBoxCorner"
-                app:boxCornerRadiusTopEnd="@dimen/loginTextBoxCorner"
-                app:boxCornerRadiusTopStart="@dimen/loginTextBoxCorner"
-                app:boxStrokeColor="@android:color/white"
-                app:boxStrokeWidth="3dp"
-                app:counterMaxLength="30">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:theme="@style/Logintheme">
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/usernameId"
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxCornerRadiusBottomEnd="@dimen/loginTextBoxCorner"
+                    app:boxCornerRadiusBottomStart="@dimen/loginTextBoxCorner"
+                    app:boxCornerRadiusTopEnd="@dimen/loginTextBoxCorner"
+                    app:boxCornerRadiusTopStart="@dimen/loginTextBoxCorner"
+                    app:boxStrokeColor="@android:color/white"
+                    app:boxStrokeWidth="3dp"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/usernameId"
+                        android:layout_width="@dimen/boxWidthExtraLarge"
+                        android:layout_height="@dimen/boxheightExtraLarge"
+                        android:drawableEnd="@drawable/username_white_24dp"
+                        android:hint="@string/username_title"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textSize="@dimen/loginTextSizeExtraLarge" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxCornerRadiusBottomEnd="@dimen/loginTextBoxCorner"
+                    app:boxCornerRadiusBottomStart="@dimen/loginTextBoxCorner"
+                    app:boxCornerRadiusTopEnd="@dimen/loginTextBoxCorner"
+                    app:boxCornerRadiusTopStart="@dimen/loginTextBoxCorner"
+                    app:boxStrokeColor="@android:color/white"
+                    app:boxStrokeWidth="3dp"
+                    
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@android:color/white">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/passwordId"
+                        android:layout_width="@dimen/boxWidthExtraLarge"
+                        android:layout_height="@dimen/boxheightExtraLarge"
+                        android:hint="@string/password_title"
+                        android:inputType="textPassword"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textSize="@dimen/loginTextSizeExtraLarge" />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <Button
+                    android:id="@+id/signInId"
                     android:layout_width="@dimen/boxWidthExtraLarge"
                     android:layout_height="@dimen/boxheightExtraLarge"
-                    android:drawableEnd="@drawable/username_white_24dp"
-                    android:hint="@string/username_title"
-                    android:singleLine="true"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/login_button_theme"
+                    android:text="@string/sign_in_title"
                     android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"
                     android:textSize="@dimen/loginTextSizeExtraLarge" />
 
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColorHint="@android:color/darker_gray"
-                app:boxCornerRadiusBottomEnd="@dimen/loginTextBoxCorner"
-                app:boxCornerRadiusBottomStart="@dimen/loginTextBoxCorner"
-                app:boxCornerRadiusTopEnd="@dimen/loginTextBoxCorner"
-                app:boxCornerRadiusTopStart="@dimen/loginTextBoxCorner"
-                app:boxStrokeColor="@android:color/white"
-                app:boxStrokeWidth="3dp"
-                app:counterMaxLength="30"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@android:color/white">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/passwordId"
-                    android:layout_width="@dimen/boxWidthExtraLarge"
-                    android:layout_height="@dimen/boxheightExtraLarge"
-                    android:hint="@string/password_title"
-                    android:inputType="textPassword"
-                    android:singleLine="true"
+                <TextView
+                    android:id="@+id/forgetPasswordId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/forget_password_title"
                     android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"
                     android:textSize="@dimen/loginTextSizeExtraLarge" />
 
-            </android.support.design.widget.TextInputLayout>
+                <TextView
+                    android:id="@+id/createNewAccountId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/no_account_title"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/loginTextSizeExtraLarge" />
+            </LinearLayout>
 
+        </android.support.v4.widget.NestedScrollView>
 
-            <Button
-                android:id="@+id/signInId"
-                android:layout_width="@dimen/boxWidthExtraLarge"
-                android:layout_height="@dimen/boxheightExtraLarge"
-                android:layout_margin="20dp"
-                android:background="@drawable/login_button_theme"
-                android:text="@string/sign_in_title"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/loginTextSizeExtraLarge" />
-
-            <TextView
-                android:id="@+id/forgetPasswordId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/forget_password_title"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/loginTextSizeExtraLarge" />
-
-            <TextView
-                android:id="@+id/createNewAccountId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="15dp"
-                android:text="@string/no_account_title"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/loginTextSizeExtraLarge" />
-        </LinearLayout>
 
     </LinearLayout>
 

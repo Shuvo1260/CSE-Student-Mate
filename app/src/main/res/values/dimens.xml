@@ -2,9 +2,9 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="loginTextBoxCorner">100dp</dimen>
     <dimen name="loginTextSizeSmall">6sp</dimen>
-    <dimen name="loginTextSizeMedium">20sp</dimen>
+    <dimen name="loginTextSizeMedium">18sp</dimen>
     <dimen name="loginTextSizeLarge">22sp</dimen>
-    <dimen name="loginTextSizeExtraLarge">22sp</dimen>
+    <dimen name="loginTextSizeExtraLarge">20sp</dimen>
 
     <dimen name="boxWidthSmall">100dp</dimen>
     <dimen name="boxheightSmall">20dp</dimen>

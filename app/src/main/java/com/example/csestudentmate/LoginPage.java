@@ -11,6 +11,9 @@ import android.graphics.drawable.shapes.RectShape;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,7 +21,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LoginPage extends AppCompatActivity implements View.OnClickListener {
+public class LoginPage extends AppCompatActivity implements View.OnClickListener{
 
     private TextInputEditText usernameText;
     private TextInputEditText passwordText;
@@ -39,6 +42,9 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         forgetPassword = findViewById(R.id.forgetPasswordId);
         createNewAccount = findViewById(R.id.createNewAccountId);
 
+        SignInButton.setEnabled(false);
+        SignInButton.setBackgroundResource(R.drawable.disable_login_button_theme);
+
 
         SignInButton.setOnClickListener(this);
         forgetPassword.setOnClickListener(this);
@@ -47,7 +53,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         usernameText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                username = usernameText.getText().toString();
+                username = usernameText.getText().toString().trim();
                 if(!hasFocus){
                     if(username.isEmpty()){
                         usernameText.setError("Please enter your username");
@@ -59,7 +65,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         passwordText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                password = passwordText.getText().toString();
+                password = passwordText.getText().toString().trim();
                 if(!hasFocus){
                     if(password.isEmpty()){
                         passwordText.setError("Please enter your password");
@@ -67,7 +73,47 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                 }
             }
         });
+
+        usernameText.addTextChangedListener(textWatcher);
+
+        passwordText.addTextChangedListener(textWatcher);
     }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            //
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            int maxLength = 50;
+            username = usernameText.getText().toString().trim();
+            password = passwordText.getText().toString().trim();
+
+            if(!username.isEmpty() && !password.isEmpty()){
+                SignInButton.setEnabled(true);
+                SignInButton.setBackgroundResource(R.drawable.login_button_theme);
+            }else{
+                SignInButton.setEnabled(false);
+                SignInButton.setBackgroundResource(R.drawable.disable_login_button_theme);
+            }
+
+            if(username.length() == maxLength){
+                usernameText.setError("Not more than 30 character");
+            }if(password.length() == maxLength){
+                passwordText.setError("Not more than 30 character");
+            }
+
+            usernameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+            passwordText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            //
+        }
+    };
 
     @Override
     public void onClick(View v) {
@@ -81,4 +127,5 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
             startActivity(intent);
         }
     }
+
 }
