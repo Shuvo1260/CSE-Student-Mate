@@ -99,7 +99,7 @@
                         android:id="@+id/usernameId"
                         android:layout_width="@dimen/boxWidthExtraLarge"
                         android:layout_height="@dimen/boxheightExtraLarge"
-                        android:drawableEnd="@drawable/username_white_24dp"
+                        android:drawableEnd="@drawable/username_white"
                         android:hint="@string/username_title"
                         android:singleLine="true"
                         android:textColor="@android:color/white"

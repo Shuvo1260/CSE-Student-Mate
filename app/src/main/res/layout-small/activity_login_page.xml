@@ -108,7 +108,7 @@
                         android:textSize="@dimen/loginTextSizeSmall"
                         android:textColor="@android:color/white"
                         android:singleLine="true"
-                        android:drawableEnd="@drawable/username_white_24dp"
+                        android:drawableEnd="@drawable/username_white"
                         />
 
                 </android.support.design.widget.TextInputLayout>

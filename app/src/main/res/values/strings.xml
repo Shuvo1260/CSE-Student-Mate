@@ -14,4 +14,16 @@
 
     <string name="login_title">Student Login</string>
     <string name="registration_title">Student Registration</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_class">Class</string>
+    <string name="nav_nu_result">NU Result</string>
+    <string name="nav_feedback">Feedback</string>
+    <string name="nav_help">Help</string>
+    <string name="nav_support">Support</string>
+
+
+    <string name="nav_open_drawer">Open Navigation Drawer</string>
+    <string name="nav_close_drawer">Close Navigation Drawer</string>
 </resources>

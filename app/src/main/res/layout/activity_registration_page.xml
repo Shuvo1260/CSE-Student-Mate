@@ -130,7 +130,7 @@
                         android:textSize="@dimen/loginTextSizeMedium"
                         android:textColor="@android:color/white"
                         android:singleLine="true"
-                        android:drawableEnd="@drawable/username_white_24dp"
+                        android:drawableEnd="@drawable/username_white"
                         />
 
                 </android.support.design.widget.TextInputLayout>
@@ -188,7 +188,7 @@
                         android:textSize="@dimen/loginTextSizeMedium"
                         android:textColor="@android:color/white"
                         android:singleLine="true"
-                        android:drawableEnd="@drawable/ic_phone_white_24dp"
+                        android:drawableEnd="@drawable/ic_phone_white"
                         android:inputType="phone"
                         />
 

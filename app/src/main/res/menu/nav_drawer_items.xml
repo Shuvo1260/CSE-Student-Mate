@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navHomeId"
+            android:title="@string/nav_home"
+            android:icon="@drawable/ic_home_black"
+            android:checked="true"
+            />
+        <item
+            android:id="@+id/navProfileId"
+            android:title="@string/nav_profile"
+            android:icon="@drawable/ic_profile"
+            />
+        <item
+            android:id="@+id/navClassId"
+            android:title="@string/nav_class"
+            android:icon="@drawable/ic_class"
+            />
+        <item
+            android:id="@+id/navNUResultId"
+            android:title="@string/nav_nu_result"
+            android:icon="@drawable/ic_nu_result"
+            />
+    </group>
+
+    <item android:title="@string/nav_support">
+        <menu>
+            <item
+                android:id="@+id/navFeedbackId"
+                android:title="@string/nav_feedback"
+                android:icon="@drawable/ic_feedback"
+                />
+            <item
+                android:id="@+id/navHelpId"
+                android:title="@string/nav_help"
+                android:icon="@drawable/ic_help"
+                />
+        </menu>
+    </item>
+
+</menu>
