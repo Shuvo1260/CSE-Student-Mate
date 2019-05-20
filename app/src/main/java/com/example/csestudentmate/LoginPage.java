@@ -42,6 +42,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         forgetPassword = findViewById(R.id.forgetPasswordId);
         createNewAccount = findViewById(R.id.createNewAccountId);
 
+        // Disabling Sign in Button at the beginning
         SignInButton.setEnabled(false);
         SignInButton.setBackgroundResource(R.drawable.disable_login_button_theme);
 
@@ -91,7 +92,11 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
             username = usernameText.getText().toString().trim();
             password = passwordText.getText().toString().trim();
 
-            if(!username.isEmpty() && !password.isEmpty()){
+            // Button Disable and Enable feature
+
+            boolean confirmation = !username.isEmpty() && !password.isEmpty();
+
+            if(confirmation){
                 SignInButton.setEnabled(true);
                 SignInButton.setBackgroundResource(R.drawable.login_button_theme);
             }else{
@@ -99,10 +104,11 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                 SignInButton.setBackgroundResource(R.drawable.disable_login_button_theme);
             }
 
+            // Checking weather max length is crossing or not
             if(username.length() == maxLength){
-                usernameText.setError("Not more than 30 character");
+                usernameText.setError("Not more than "+ maxLength + " character");
             }if(password.length() == maxLength){
-                passwordText.setError("Not more than 30 character");
+                passwordText.setError("Not more than "+ maxLength + " character");
             }
 
             usernameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
@@ -120,6 +126,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         if(v.getId() == R.id.signInId){
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         }else if(v.getId() == R.id.forgetPasswordId){
             Toast.makeText(getApplicationContext(), "Forget Password", Toast.LENGTH_SHORT).show();
         }else if(v.getId() == R.id.createNewAccountId){
