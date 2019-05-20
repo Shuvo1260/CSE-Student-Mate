@@ -108,6 +108,11 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
             }else if(password.length() < 6){
                 passwordText.setError("At least 6 character");
             }
+        }else if(id == R.id.confirmPasswordId && !hasFocus){
+            confirmPassword = confirmPasswordText.getText().toString().trim();
+            if(confirmPassword.isEmpty()){
+                confirmPasswordText.setError("Reenter password");
+            }
         }
     }
 
