@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,6 +27,8 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
     private String fullname, username, email;
     private String contactNo, password, confirmPassword;
 
+    boolean confirmation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +46,7 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
         confirmPasswordText = findViewById(R.id.confirmPasswordId);
 
         // Disabling Sign up Button at the beginning
+        confirmation = true;
         signUpButton.setEnabled(false);
         signUpButton.setBackgroundResource(R.drawable.disable_login_button_theme);
 
@@ -74,37 +80,36 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
         if(id == R.id.fullnameId && !hasFocus){
             fullname = fullnameText.getText().toString().trim();
             if(fullname.isEmpty()){
-                fullnameText.setError("Enter your full name");
+                fullnameText.setError("Full name is required");
             }else if(fullname.length() < 3){
                 fullnameText.setError("Enter a valid name");
             }
         }else if(id == R.id.registerUsernameId && !hasFocus){
             username = usernameText.getText().toString().trim();
             if(username.isEmpty()){
-                usernameText.setError("Enter a username");
+                usernameText.setError("Username is required");
             }else if(username.length() < 5){
                 usernameText.setError("At least 4 character");
             }
         }else if(id == R.id.emailId && !hasFocus){
             email = emailText.getText().toString().trim();
-//            String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
             if(email.isEmpty()){
-                emailText.setError("Enter your email id");
-            }else if(isValidEmailId(email)){
+                emailText.setError("Email is required");
+            }else if(!isValidEmailId(email)){
                 emailText.setError("Enter a valid email");
             }
         }else if(id == R.id.contactNoId && !hasFocus){
             contactNo = contactNoText.getText().toString().trim();
             if(contactNo.isEmpty()){
-                contactNoText.setError("Enter your contact no");
+                contactNoText.setError("Contact no is required");
             }else if(contactNo.length() < 11){
                 contactNoText.setError("Enter a valid contact no");
             }
         }else if(id == R.id.registerPasswordId && !hasFocus){
             password = passwordText.getText().toString().trim();
             if(password.isEmpty()){
-                passwordText.setError("Enter a password");
+                passwordText.setError("Password is required");
             }else if(password.length() < 6){
                 passwordText.setError("At least 6 character");
             }
@@ -124,7 +129,6 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            int maxLength = 50;
 
             fullname = fullnameText.getText().toString().trim();
             username = usernameText.getText().toString().trim();
@@ -133,9 +137,14 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
             password = passwordText.getText().toString().trim();
             confirmPassword = confirmPasswordText.getText().toString().trim();
 
-            // Button Disable and Enable feature
-            boolean confirmation = !fullname.isEmpty() && !username.isEmpty() && !email.isEmpty() && !contactNo.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty();
 
+            // Checking whether there are any error or not
+            confirmation = !fullname.isEmpty() && !username.isEmpty() && !email.isEmpty() && !contactNo.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty();
+            confirmation = confirmation && !(fullname.length() < 3) && !(username.length() < 5);
+            confirmation = confirmation && !(contactNo.length() < 11) && !(password.length() < 6) && password.matches(confirmPassword);
+            confirmation = confirmation && isValidEmailId(email);
+            
+            // Button Disable and Enable feature
             if(confirmation){
                 signUpButton.setEnabled(true);
                 signUpButton.setBackgroundResource(R.drawable.login_button_theme);
@@ -144,27 +153,9 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
                 signUpButton.setBackgroundResource(R.drawable.disable_login_button_theme);
             }
 
-            // Checking weather max length is crossing or not
-            if(fullname.length() == maxLength){
-                fullnameText.setError("Not more than "+ maxLength + " character");
-            }if(username.length() == maxLength){
-                usernameText.setError("Not more than "+ maxLength + " character");
-            }if(email.length() == maxLength){
-                emailText.setError("Not more than "+ maxLength + " character");
-            }if(contactNo.length() == maxLength){
-                contactNoText.setError("Not more than "+ maxLength + " character");
-            }if(password.length() == maxLength){
-                passwordText.setError("Not more than "+ maxLength + " character");
-            }if(confirmPassword.length() == maxLength){
-                confirmPasswordText.setError("Not more than "+ maxLength + " character");
-            }
+            // Checking whether max length is crossing or not
+            maxLengthChecker(50);
 
-            fullnameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
-            usernameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
-            emailText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
-            contactNoText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
-            passwordText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
-            confirmPasswordText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
         }
 
         @Override
@@ -173,13 +164,33 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
         }
     };
 
-    private boolean isValidEmailId(String email){
+    //This method checks whether any field empty or not
+    private void maxLengthChecker(int maxLength) {
+        String maxLenErrorMessage = "Not more than "+ maxLength + " character";
 
-        return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
-                + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
-                + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
-                + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches();
+        if(fullname.length() == maxLength){
+            fullnameText.setError(maxLenErrorMessage);
+        }if(username.length() == maxLength){
+            usernameText.setError(maxLenErrorMessage);
+        }if(email.length() == maxLength){
+            emailText.setError(maxLenErrorMessage);
+        }if(contactNo.length() == maxLength){
+            contactNoText.setError(maxLenErrorMessage);
+        }if(password.length() == maxLength){
+            passwordText.setError(maxLenErrorMessage);
+        }if(confirmPassword.length() == maxLength){
+            confirmPasswordText.setError(maxLenErrorMessage);
+        }
+
+        fullnameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        usernameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        emailText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        contactNoText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        passwordText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        confirmPasswordText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+    }
+
+    private boolean isValidEmailId(String email){
+        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 }

@@ -57,7 +57,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                 username = usernameText.getText().toString().trim();
                 if(!hasFocus){
                     if(username.isEmpty()){
-                        usernameText.setError("Please enter your username");
+                        usernameText.setError("Username is required");
                     }
                 }
             }
@@ -69,7 +69,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                 password = passwordText.getText().toString().trim();
                 if(!hasFocus){
                     if(password.isEmpty()){
-                        passwordText.setError("Please enter your password");
+                        passwordText.setError("Password is required");
                     }
                 }
             }
