@@ -1,6 +1,7 @@
 package com.example.csestudentmate;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment;
     private NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,21 +71,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int item_id = menuItem.getItemId();
-
+        String actionBarTitle = null;
         fragment = null;
+        Intent intent = null;
 
         if(item_id == R.id.navHomeId){
             fragment = new Home();
+            actionBarTitle = "Home";
         }else if(item_id == R.id.navClassId){
             fragment = new Class();
+            actionBarTitle = "Class";
         }else if(item_id == R.id.navNUResultId){
             fragment = new NU_Result();
+            actionBarTitle = "NU Result";
+        }else if(item_id == R.id.navProfileId){
+            intent = new Intent(MainActivity.this, Profile.class);
+        }else if(item_id == R.id.navFeedbackId){
+            intent = new Intent(MainActivity.this, Feedback.class);
+        }else if(item_id == R.id.navHelpId){
+            intent = new Intent(MainActivity.this, Help.class);
         }else{
             fragment = new Home();
+            actionBarTitle = "Home";
         }
-
         if(fragment != null){
             fragmentSetup(item_id);
+            toolbar.setTitle(actionBarTitle);
+        }
+        if(intent != null){
+            startActivity(intent);
         }
         return false;
     }
@@ -91,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void acctionBarSeeting(){
         //Custom toolbar creating and setting.
         toolbar = (Toolbar) findViewById(R.id.mainToolbarId);
-        toolbar.setTitle("Alhamdulillah");
+        toolbar.setTitle("Home");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
         setSupportActionBar(toolbar);
     }

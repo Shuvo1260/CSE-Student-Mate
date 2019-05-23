@@ -9,20 +9,24 @@
         android:roundIcon="@drawable/logo_colorful"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegistrationPage"
-            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Help"></activity>
+        <activity android:name=".Feedback" />
+        <activity android:name=".Profile" />
+        <activity
+            android:name=".RegistrationPage"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginPage"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" android:theme="@style/MainActivityTheme">
-        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/MainActivityTheme" />
     </application>
 
 </manifest>
