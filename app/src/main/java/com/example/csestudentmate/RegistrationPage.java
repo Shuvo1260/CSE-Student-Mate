@@ -82,7 +82,7 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
             if(fullname.isEmpty()){
                 fullnameText.setError("Full name is required");
             }else if(fullname.length() < 3){
-                fullnameText.setError("Enter a valid name");
+                fullnameText.setError("Invalid name");
             }
         }else if(id == R.id.registerUsernameId && !hasFocus){
             username = usernameText.getText().toString().trim();
@@ -97,14 +97,14 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
             if(email.isEmpty()){
                 emailText.setError("Email is required");
             }else if(!isValidEmailId(email)){
-                emailText.setError("Enter a valid email");
+                emailText.setError("Invalid email");
             }
         }else if(id == R.id.contactNoId && !hasFocus){
             contactNo = contactNoText.getText().toString().trim();
             if(contactNo.isEmpty()){
                 contactNoText.setError("Contact no is required");
             }else if(contactNo.length() < 11){
-                contactNoText.setError("Enter a valid contact no");
+                contactNoText.setError("Invalid contact no");
             }
         }else if(id == R.id.registerPasswordId && !hasFocus){
             password = passwordText.getText().toString().trim();
@@ -143,7 +143,7 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
             confirmation = confirmation && !(fullname.length() < 3) && !(username.length() < 5);
             confirmation = confirmation && !(contactNo.length() < 11) && !(password.length() < 6) && password.matches(confirmPassword);
             confirmation = confirmation && isValidEmailId(email);
-            
+
             // Button Disable and Enable feature
             if(confirmation){
                 signUpButton.setEnabled(true);
