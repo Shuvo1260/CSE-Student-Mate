@@ -1,5 +1,6 @@
 package com.example.csestudentmate;
 
+import android.graphics.Color;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
         confirmation = true;
         signUpButton.setEnabled(false);
         signUpButton.setBackgroundResource(R.drawable.disable_login_button_theme);
+        signUpButton.setTextColor(Color.GRAY);
 
         fullnameText.setOnFocusChangeListener(this);
         usernameText.setOnFocusChangeListener(this);
@@ -148,9 +150,11 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
             if(confirmation){
                 signUpButton.setEnabled(true);
                 signUpButton.setBackgroundResource(R.drawable.login_button_theme);
+                signUpButton.setTextColor(Color.WHITE);
             }else{
                 signUpButton.setEnabled(false);
                 signUpButton.setBackgroundResource(R.drawable.disable_login_button_theme);
+                signUpButton.setTextColor(Color.GRAY);
             }
 
             // Checking whether max length is crossing or not

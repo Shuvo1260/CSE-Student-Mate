@@ -2,17 +2,27 @@ package com.example.csestudentmate;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar toolbar;
@@ -22,14 +32,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment fragment;
     private NavigationView navigationView;
 
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+//    private SectionPageAdapter sectionPageAdapter;
+    private String[] pageNames;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        acctionBarSeeting();
+        tabLayout = findViewById(R.id.TabsId);
+        viewPager = findViewById(R.id.ViewPagerId);
+
+        actionBarSeeting();
         navigationDrawerSettings();
+
     }
 
     private void fragmentSetup(int item_id) {
@@ -45,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(GravityCompat.START);
         }
     }
-
     private void navigationDrawerSettings() {
 
         // This Layout use to access navigation drawer.
@@ -72,18 +90,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int item_id = menuItem.getItemId();
         String actionBarTitle = null;
-        fragment = null;
         Intent intent = null;
+
+        fragment = null;
 
         if(item_id == R.id.navHomeId){
             fragment = new Home();
-            actionBarTitle = "Home";
         }else if(item_id == R.id.navClassId){
             fragment = new Class();
-            actionBarTitle = "Class";
         }else if(item_id == R.id.navNUResultId){
             fragment = new NU_Result();
-            actionBarTitle = "NU Result";
         }else if(item_id == R.id.navProfileId){
             intent = new Intent(MainActivity.this, Profile.class);
         }else if(item_id == R.id.navFeedbackId){
@@ -92,19 +108,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent = new Intent(MainActivity.this, Help.class);
         }else{
             fragment = new Home();
-            actionBarTitle = "Home";
         }
+
         if(fragment != null){
             fragmentSetup(item_id);
-            toolbar.setTitle(actionBarTitle);
         }
+
         if(intent != null){
             startActivity(intent);
         }
         return false;
     }
 
-    public void acctionBarSeeting(){
+    public void actionBarSeeting(){
         //Custom toolbar creating and setting.
         toolbar = (Toolbar) findViewById(R.id.mainToolbarId);
         toolbar.setTitle("Home");

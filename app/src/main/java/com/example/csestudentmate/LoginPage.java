@@ -45,6 +45,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         // Disabling Sign in Button at the beginning
         SignInButton.setEnabled(false);
         SignInButton.setBackgroundResource(R.drawable.disable_login_button_theme);
+        SignInButton.setTextColor(Color.GRAY);
 
 
         SignInButton.setOnClickListener(this);
@@ -99,9 +100,11 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
             if(confirmation){
                 SignInButton.setEnabled(true);
                 SignInButton.setBackgroundResource(R.drawable.login_button_theme);
+                SignInButton.setTextColor(Color.WHITE);
             }else{
                 SignInButton.setEnabled(false);
                 SignInButton.setBackgroundResource(R.drawable.disable_login_button_theme);
+                SignInButton.setTextColor(Color.GRAY);
             }
 
             // Checking weather max length is crossing or not

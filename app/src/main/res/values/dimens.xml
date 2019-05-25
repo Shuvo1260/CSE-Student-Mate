@@ -4,7 +4,7 @@
     <dimen name="loginTextSizeSmall">6sp</dimen>
     <dimen name="loginTextSizeMedium">18sp</dimen>
     <dimen name="loginTextSizeLarge">22sp</dimen>
-    <dimen name="loginTextSizeExtraLarge">20sp</dimen>
+    <dimen name="loginTextSizeExtraLarge">24sp</dimen>
 
     <dimen name="boxWidthSmall">100dp</dimen>
     <dimen name="boxheightSmall">20dp</dimen>
@@ -12,6 +12,6 @@
     <dimen name="boxheightMedium">50dp</dimen>
     <dimen name="boxWidthLarge">270dp</dimen>
     <dimen name="boxheightLarge">70dp</dimen>
-    <dimen name="boxWidthExtraLarge">280dp</dimen>
-    <dimen name="boxheightExtraLarge">60dp</dimen>
+    <dimen name="boxWidthExtraLarge">290dp</dimen>
+    <dimen name="boxheightExtraLarge">80dp</dimen>
 </resources>

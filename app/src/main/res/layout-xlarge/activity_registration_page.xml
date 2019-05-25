@@ -11,9 +11,9 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:layout_marginEnd="900dp"
-        android:layout_marginRight="900dp"
+        android:layout_marginTop="464dp"
+        android:layout_marginEnd="536dp"
+        android:layout_marginRight="536dp"
         android:src="@drawable/background_left"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,9 +21,9 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="880dp"
-        android:layout_marginLeft="880dp"
-        android:layout_marginBottom="352dp"
+        android:layout_marginStart="492dp"
+        android:layout_marginLeft="492dp"
+        android:layout_marginBottom="772dp"
         android:src="@drawable/background_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -31,9 +31,9 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="668dp"
-        android:layout_marginLeft="668dp"
-        android:layout_marginTop="568dp"
+        android:layout_marginStart="380dp"
+        android:layout_marginLeft="380dp"
+        android:layout_marginTop="916dp"
         android:src="@drawable/background_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,8 +53,8 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:src="@drawable/logo_white" />
 
             <TextView
