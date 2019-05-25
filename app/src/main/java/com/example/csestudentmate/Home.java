@@ -25,7 +25,7 @@ public class Home extends Fragment {
         viewPager = view.findViewById(R.id.ViewPagerId);
 
         String[] pageNames = new String[]{"Calendar", "Alarm Clock"};
-        HomePageAdapter homePageAdapter = new HomePageAdapter(getFragmentManager(), pageNames, 2);
+        PageAdapter homePageAdapter = new PageAdapter(getChildFragmentManager(), pageNames, 2, "NUResult");
         viewPager.setAdapter(homePageAdapter);
         tabLayout.setTabTextColors(Color.WHITE,Color.GREEN);
         tabLayout.setupWithViewPager(viewPager);

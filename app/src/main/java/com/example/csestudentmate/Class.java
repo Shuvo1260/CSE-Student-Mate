@@ -32,7 +32,7 @@ public class Class extends Fragment {
         viewPager = view.findViewById(R.id.ClassViewPagerId);
 
         String[] pageNames = new String[]{"Incourse Result", "Final Result", "Attendance"};
-        ClassPageAdapter classPageAdapter = new ClassPageAdapter(getFragmentManager(), pageNames, 3);
+        PageAdapter classPageAdapter = new PageAdapter(getChildFragmentManager(), pageNames, 3, "Class");
         viewPager.setAdapter(classPageAdapter);
         tabLayout.setTabTextColors(Color.WHITE,Color.GREEN);
         tabLayout.setupWithViewPager(viewPager);

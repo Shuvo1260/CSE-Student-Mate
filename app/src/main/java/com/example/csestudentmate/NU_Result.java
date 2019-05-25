@@ -26,7 +26,7 @@ public class NU_Result extends Fragment {
         viewPager = view.findViewById(R.id.nuViewPagerId);
 
         String[] pageNames = new String[]{"Semester Result", "Total CGPA"};
-        NUResultPageAdapter nuResultPageAdapter = new NUResultPageAdapter(getFragmentManager(), pageNames, 2);
+        PageAdapter nuResultPageAdapter = new PageAdapter(getChildFragmentManager(), pageNames, 2, "NUResult");
         viewPager.setAdapter(nuResultPageAdapter);
         tabLayout.setTabTextColors(Color.WHITE,Color.GREEN);
         tabLayout.setupWithViewPager(viewPager);

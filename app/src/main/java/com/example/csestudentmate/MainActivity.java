@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Custom toolbar creating and setting.
         toolbar = (Toolbar) findViewById(R.id.mainToolbarId);
         toolbar.setTitle("Home");
-        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
     }
 
