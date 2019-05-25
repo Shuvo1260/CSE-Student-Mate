@@ -1,9 +1,6 @@
 package com.example.csestudentmate;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -27,10 +24,9 @@ public class Home extends Fragment {
         tabLayout = view.findViewById(R.id.TabsId);
         viewPager = view.findViewById(R.id.ViewPagerId);
 
-        SectionPageAdapter sectionPageAdapter = new SectionPageAdapter(getFragmentManager());
         String[] pageNames = new String[]{"Calendar", "Alarm Clock"};
-        sectionPageAdapter.addPage(pageNames, 2, "Home", view.getContext());
-        viewPager.setAdapter(sectionPageAdapter);
+        HomePageAdapter homePageAdapter = new HomePageAdapter(getFragmentManager(), pageNames, 2);
+        viewPager.setAdapter(homePageAdapter);
         tabLayout.setTabTextColors(Color.WHITE,Color.GREEN);
         tabLayout.setupWithViewPager(viewPager);
 

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
-//    private SectionPageAdapter sectionPageAdapter;
+//    private HomePageAdapter sectionPageAdapter;
     private String[] pageNames;
 
 
@@ -95,10 +95,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = null;
 
         if(item_id == R.id.navHomeId){
+            actionBarTitle = "Home";
             fragment = new Home();
         }else if(item_id == R.id.navClassId){
+            actionBarTitle = "Class";
             fragment = new Class();
         }else if(item_id == R.id.navNUResultId){
+            actionBarTitle = "NU Result";
             fragment = new NU_Result();
         }else if(item_id == R.id.navProfileId){
             intent = new Intent(MainActivity.this, Profile.class);
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if(fragment != null){
+            toolbar.setTitle(actionBarTitle);
             fragmentSetup(item_id);
         }
 

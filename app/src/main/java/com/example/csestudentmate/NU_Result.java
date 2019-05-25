@@ -22,13 +22,12 @@ public class NU_Result extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_nu__result, container, false);
-        tabLayout = view.findViewById(R.id.TabsId);
-        viewPager = view.findViewById(R.id.ViewPagerId);
+        tabLayout = view.findViewById(R.id.nuTabsId);
+        viewPager = view.findViewById(R.id.nuViewPagerId);
 
-        SectionPageAdapter sectionPageAdapter = new SectionPageAdapter(getFragmentManager());
         String[] pageNames = new String[]{"Semester Result", "Total CGPA"};
-        sectionPageAdapter.addPage(pageNames, 2, "Home", view.getContext());
-        viewPager.setAdapter(sectionPageAdapter);
+        NUResultPageAdapter nuResultPageAdapter = new NUResultPageAdapter(getFragmentManager(), pageNames, 2);
+        viewPager.setAdapter(nuResultPageAdapter);
         tabLayout.setTabTextColors(Color.WHITE,Color.GREEN);
         tabLayout.setupWithViewPager(viewPager);
         return view;

@@ -1,15 +1,21 @@
 package com.example.csestudentmate;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Class extends Fragment {
@@ -22,15 +28,19 @@ public class Class extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_class, container, false);
 
-        tabLayout = view.findViewById(R.id.TabsId);
-        viewPager = view.findViewById(R.id.ViewPagerId);
+        tabLayout = view.findViewById(R.id.ClassTabsId);
+        viewPager = view.findViewById(R.id.ClassViewPagerId);
 
-        SectionPageAdapter sectionPageAdapter = new SectionPageAdapter(getFragmentManager());
         String[] pageNames = new String[]{"Incourse Result", "Final Result", "Attendance"};
-        sectionPageAdapter.addPage(pageNames, 3, "Home", view.getContext());
-        viewPager.setAdapter(sectionPageAdapter);
+        ClassPageAdapter classPageAdapter = new ClassPageAdapter(getFragmentManager(), pageNames, 3);
+        viewPager.setAdapter(classPageAdapter);
         tabLayout.setTabTextColors(Color.WHITE,Color.GREEN);
         tabLayout.setupWithViewPager(viewPager);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }
