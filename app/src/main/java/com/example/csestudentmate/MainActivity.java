@@ -32,10 +32,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment fragment;
     private NavigationView navigationView;
 
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-//    private HomePageAdapter sectionPageAdapter;
-    private String[] pageNames;
 
 
     @Override
@@ -43,8 +39,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tabLayout = findViewById(R.id.TabsId);
-        viewPager = findViewById(R.id.ViewPagerId);
 
         actionBarSeeting();
         navigationDrawerSettings();
