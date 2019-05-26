@@ -25,10 +25,10 @@ public class NU_Result extends Fragment {
         tabLayout = view.findViewById(R.id.nuTabsId);
         viewPager = view.findViewById(R.id.nuViewPagerId);
 
-        String[] pageNames = new String[]{"Semester Result", "Total CGPA"};
-        PageAdapter nuResultPageAdapter = new PageAdapter(getChildFragmentManager(), pageNames, 2);
-        nuResultPageAdapter.addFragment(new SemesterResult());
-        nuResultPageAdapter.addFragment(new TotalCGPA());
+        PageAdapter nuResultPageAdapter = new PageAdapter(getChildFragmentManager());
+        nuResultPageAdapter.addFragment(new SemesterResult(), "Semester Result");
+        nuResultPageAdapter.addFragment(new TotalCGPA(), "Total CGPA");
+
         viewPager.setAdapter(nuResultPageAdapter);
         tabLayout.setTabTextColors(Color.WHITE,Color.GREEN);
         tabLayout.setupWithViewPager(viewPager);

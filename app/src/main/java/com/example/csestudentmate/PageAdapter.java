@@ -10,17 +10,12 @@ import java.util.List;
 
 
 class PageAdapter extends FragmentPagerAdapter {
-    private String[] pageNames;
-    private int totalPages;
-    private Fragment fragment;
-    private String fragmentName;
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
+    private List<String> fragmentTitle = new ArrayList<String>();
 
 
-    public PageAdapter(FragmentManager fm, String[] pageNames, int totalPages) {
+    public PageAdapter(FragmentManager fm) {
         super(fm);
-        this.pageNames = pageNames;
-        this.totalPages = totalPages;
     }
 
     @Override
@@ -30,16 +25,17 @@ class PageAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return totalPages;
+        return fragmentList.size();
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return pageNames[position];
+        return fragmentTitle.get(position);
     }
 
-    public void addFragment(Fragment fragment){
+    public void addFragment(Fragment fragment, String fragmentName){
         fragmentList.add(fragment);
+        fragmentTitle.add(fragmentName);
     }
 }

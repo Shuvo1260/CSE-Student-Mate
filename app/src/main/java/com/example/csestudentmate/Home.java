@@ -25,10 +25,10 @@ public class Home extends Fragment {
         tabLayout = view.findViewById(R.id.TabsId);
         viewPager = view.findViewById(R.id.ViewPagerId);
 
-        String[] pageNames = new String[]{"Calendar", "Alarm Clock"};
-        PagerAdapter homePageAdapter = new PageAdapter(getChildFragmentManager(), pageNames, 2);
-        ((PageAdapter) homePageAdapter).addFragment(new CalendarPage());
-        ((PageAdapter) homePageAdapter).addFragment(new AlarmPage());
+        PagerAdapter homePageAdapter = new PageAdapter(getChildFragmentManager());
+        ((PageAdapter) homePageAdapter).addFragment(new CalendarPage(),"Calendar");
+        ((PageAdapter) homePageAdapter).addFragment(new AlarmPage(), "Alarm Clock");
+
         viewPager.setAdapter(homePageAdapter);
         tabLayout.setTabTextColors(Color.WHITE,Color.GREEN);
         tabLayout.setupWithViewPager(viewPager);
