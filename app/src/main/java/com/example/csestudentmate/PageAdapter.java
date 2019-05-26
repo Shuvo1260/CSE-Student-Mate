@@ -5,45 +5,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 class PageAdapter extends FragmentPagerAdapter {
     private String[] pageNames;
     private int totalPages;
     private Fragment fragment;
     private String fragmentName;
+    private List<Fragment> fragmentList = new ArrayList<Fragment>();
 
-    public PageAdapter(FragmentManager fm, String[] pageNames, int totalPages, String fragmentName) {
+
+    public PageAdapter(FragmentManager fm, String[] pageNames, int totalPages) {
         super(fm);
         this.pageNames = pageNames;
         this.totalPages = totalPages;
-        this.fragmentName = fragmentName;
     }
 
     @Override
     public Fragment getItem(int i) {
-        fragment = null;
-        if(fragmentName.matches("Home")){
-            if(i == 0){
-                fragment = new CalendarPage();
-            }else if(i == 1){
-                fragment = new AlarmPage();
-            }
-        }else if(fragmentName.matches("Class")){
-            if(i == 0){
-                fragment = new IncourseResult();
-            }else if(i == 1){
-                fragment = new FinalResult();
-            }else if (i == 2){
-                fragment = new Attendance();
-            }
-        }else if (fragmentName.matches("NUResult")){
-            if(i == 0){
-                fragment = new SemesterResult();
-            }else if(i == 1){
-                fragment = new TotalCGPA();
-            }
-        }
-        return fragment;
+        return fragmentList.get(i);
     }
 
     @Override
@@ -55,5 +37,9 @@ class PageAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return pageNames[position];
+    }
+
+    public void addFragment(Fragment fragment){
+        fragmentList.add(fragment);
     }
 }

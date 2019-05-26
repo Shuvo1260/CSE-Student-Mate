@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +32,11 @@ public class Class extends Fragment {
         tabLayout = view.findViewById(R.id.ClassTabsId);
         viewPager = view.findViewById(R.id.ClassViewPagerId);
 
-        String[] pageNames = new String[]{"Incourse Result", "Final Result", "Attendance"};
-        PageAdapter classPageAdapter = new PageAdapter(getChildFragmentManager(), pageNames, 3, "Class");
+        String[] pageNames = new String[]{"Incourse Result", " College Final Result", "Attendance"};
+        PagerAdapter classPageAdapter = new PageAdapter(getChildFragmentManager(), pageNames, 3);
+        ((PageAdapter) classPageAdapter).addFragment(new IncourseResult());
+        ((PageAdapter) classPageAdapter).addFragment(new FinalResult());
+        ((PageAdapter) classPageAdapter).addFragment(new Attendance());
         viewPager.setAdapter(classPageAdapter);
         tabLayout.setTabTextColors(Color.WHITE,Color.GREEN);
         tabLayout.setupWithViewPager(viewPager);

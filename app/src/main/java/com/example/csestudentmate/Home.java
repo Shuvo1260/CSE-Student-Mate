@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,9 @@ public class Home extends Fragment {
         viewPager = view.findViewById(R.id.ViewPagerId);
 
         String[] pageNames = new String[]{"Calendar", "Alarm Clock"};
-        PageAdapter homePageAdapter = new PageAdapter(getChildFragmentManager(), pageNames, 2, "Home");
+        PagerAdapter homePageAdapter = new PageAdapter(getChildFragmentManager(), pageNames, 2);
+        ((PageAdapter) homePageAdapter).addFragment(new CalendarPage());
+        ((PageAdapter) homePageAdapter).addFragment(new AlarmPage());
         viewPager.setAdapter(homePageAdapter);
         tabLayout.setTabTextColors(Color.WHITE,Color.GREEN);
         tabLayout.setupWithViewPager(viewPager);
