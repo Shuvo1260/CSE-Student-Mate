@@ -3,16 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CalendarPage"
-    android:orientation="vertical"
+    tools:context=".DailyNotes"
+    android:gravity="center"
     >
 
     <!-- TODO: Update blank fragment layout -->
-    <CalendarView
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
-
-    </CalendarView>
+        android:text="Daily Notes"
+        android:textSize="50sp"
+        />
 
 </LinearLayout>
