@@ -27,7 +27,7 @@ public class Home extends Fragment {
 
         PagerAdapter homePageAdapter = new PageAdapter(getChildFragmentManager());
         ((PageAdapter) homePageAdapter).addFragment(new DailyNotes(),"Daily Notes");
-        ((PageAdapter) homePageAdapter).addFragment(new Events(),"Events");
+        ((PageAdapter) homePageAdapter).addFragment(new Reminders(),"Reminders");
         ((PageAdapter) homePageAdapter).addFragment(new AlarmPage(), "Alarm Clock");
 
         viewPager.setAdapter(homePageAdapter);
