@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".DailyNotes"
-    android:gravity="center"
     >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addNoteId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Daily Notes"
-        android:textSize="50sp"
+        android:src="@drawable/ic_add_white"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:foregroundTint="@color/colorPrimaryDark"
         />
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
