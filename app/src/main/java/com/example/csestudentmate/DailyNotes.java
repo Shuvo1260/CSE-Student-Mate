@@ -5,6 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,25 +21,54 @@ public class DailyNotes extends Fragment {
     private String[] noteSummery;
     private String[] noteDetails;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         final View view = inflater.inflate(R.layout.fragment_daily_notes, container, false);
 
         addNote = view.findViewById(R.id.addNoteId);
 
+        RecyclerView recyclerView;
+
+        recyclerView = view.findViewById(R.id.notePadRecyclerViewId);
+
+
+        tempMessage();
 
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(noteTitle, noteSummery);
+
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
 
         addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(view.getContext(), "Add new node", Toast.LENGTH_SHORT).show();
+                addNote.setImageDrawable(getActivity().getDrawable(R.drawable.ic_delete_white));
             }
         });
 
         return view;
+    }
+
+    public void tempMessage(){
+        noteTitle = new String[5];
+        noteSummery = new String[5];
+
+        noteTitle[0] = "Shuvo";
+        noteTitle[1] = "Habiba";
+        noteTitle[2] = "Faiza";
+        noteTitle[3] = "Yasfa";
+        noteTitle[4] = "yo";
+
+        noteSummery[0] = "alfsdkjlkfa dsafejdaslkjfsaldk;jfdlaskjdfksllkfdslkjdfsjlk\n" + "dskdfs\nlskdfj\nsdfklj\nsdflkjsd\nfdslkjd\nfd\nfd\nfd\nfd\nfds" +
+                "ldskjdfdlkdfsjlkdfsaj\nsdfl\nfdlk\ndsflkj\ndsfklj\ndsflkj\nlast";
+        noteSummery[1] = "Habiba is a good girl";
+        noteSummery[2] = "Faiza is a good girl";
+        noteSummery[3] = "Yasfa is a good girl";
+        noteSummery[4] = "Yo is a goodfdskjlaj\nfdslk\nfdslkj\nfdsklj\ndsflkj";
     }
 }
