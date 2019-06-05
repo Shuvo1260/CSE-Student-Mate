@@ -9,7 +9,8 @@
         android:roundIcon="@drawable/logo_colorful"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Help"></activity>
+        <activity android:name=".ShowNote" android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".Help" />
         <activity android:name=".Feedback" />
         <activity android:name=".Profile" />
         <activity
@@ -17,9 +18,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginPage"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".MainActivity"
             android:theme="@style/MainActivityTheme">

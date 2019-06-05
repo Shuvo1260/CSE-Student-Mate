@@ -35,7 +35,7 @@ public class DailyNotes extends Fragment {
 
         tempMessage();
 
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(noteTitle, noteSummery);
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), noteTitle, noteSummery, addNote);
 
         recyclerView.setAdapter(recyclerViewAdapter);
 
@@ -55,8 +55,8 @@ public class DailyNotes extends Fragment {
     }
 
     public void tempMessage(){
-        noteTitle = new String[5];
-        noteSummery = new String[5];
+        noteTitle = new String[6];
+        noteSummery = new String[6];
 
         noteTitle[0] = "Shuvo";
         noteTitle[1] = "Habiba";

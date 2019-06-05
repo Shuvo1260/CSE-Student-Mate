@@ -1,6 +1,11 @@
 package com.example.csestudentmate;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,13 +15,21 @@ import android.widget.TextView;
 
 class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private String[] noteTitle;
-    private String[] noteSummery;
+    private String[] noteDescription;
+    private boolean[] isChecked;
+    private boolean anyItemChecked;
+    private FragmentActivity fragmentActivity;
+    private FloatingActionButton floatingActionButton;
 
 
     // Constructor
-    public RecyclerViewAdapter(String[] noteTitle, String[] noteSummery) {
+    public RecyclerViewAdapter(FragmentActivity fragmentActivity, String[] noteTitle, String[] noteDescription, FloatingActionButton addNote) {
+        this.fragmentActivity = fragmentActivity;
         this.noteTitle = noteTitle;
-        this.noteSummery = noteSummery;
+        this.noteDescription = noteDescription;
+        isChecked = new boolean[noteTitle.length];
+        anyItemChecked = false;
+        floatingActionButton = addNote;
     }
 
 
@@ -28,16 +41,67 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
+
         final CardView cardView = viewHolder.cardView;
 
-        TextView title, summery;
+        final TextView title, Description;
 
         title = cardView.findViewById(R.id.titleId);
-        summery = cardView.findViewById(R.id.summeryId);
+        Description = cardView.findViewById(R.id.summeryId);
 
         title.setText(noteTitle[i]);
-        summery.setText(noteSummery[i]);
+        Description.setText(noteDescription[i]);
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isChecked[i] && !anyItemChecked){
+                    Intent intent = new Intent(fragmentActivity, ShowNote.class);
+                    intent.putExtra("title", noteTitle[i]);
+                    intent.putExtra("description", noteDescription[i]);
+                    fragmentActivity.startActivity(intent);
+                }
+                else if(isChecked[i] && anyItemChecked){
+                    cardView.setCardBackgroundColor(Color.WHITE);
+                    isChecked[i] = false;
+                }else if(anyItemChecked){
+                    cardView.setCardBackgroundColor(Color.GRAY);
+                    isChecked[i] = true;
+                }
+
+                for(int index = 0; index < title.length(); index++){
+                    if(isChecked[index]){
+                        anyItemChecked = true;
+                        break;
+                    }else{
+                        anyItemChecked = false;
+                    }
+                }
+
+                if(!anyItemChecked){
+                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_add_white));
+                }
+
+                notifyDataSetChanged();
+            }
+        });
+
+        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(!anyItemChecked){
+                    cardView.setCardBackgroundColor(Color.GRAY);
+                    isChecked[i] = true;
+                    anyItemChecked = true;
+                    notifyDataSetChanged();
+                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_delete_white));
+                }
+
+                return true;
+            }
+        });
+
     }
 
     @Override
