@@ -117,4 +117,8 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
             this.cardView = cardView;
         }
     }
+
+    public boolean isDeletion(){
+        return anyItemChecked;
+    }
 }

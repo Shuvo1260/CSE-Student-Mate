@@ -1,6 +1,7 @@
 package com.example.csestudentmate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -28,14 +29,14 @@ public class DailyNotes extends Fragment {
 
         addNote = view.findViewById(R.id.addNoteId);
 
-        RecyclerView recyclerView;
+        final RecyclerView recyclerView;
 
         recyclerView = view.findViewById(R.id.notePadRecyclerViewId);
 
 
         tempMessage();
 
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), noteTitle, noteSummery, addNote);
+        final RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), noteTitle, noteSummery, addNote);
 
         recyclerView.setAdapter(recyclerViewAdapter);
 
@@ -46,8 +47,14 @@ public class DailyNotes extends Fragment {
         addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(view.getContext(), "Add new node", Toast.LENGTH_SHORT).show();
-                addNote.setImageDrawable(getActivity().getDrawable(R.drawable.ic_delete_white));
+//                Toast.makeText(view.getContext(), "Add new node", Toast.LENGTH_SHORT).show();
+                if(recyclerViewAdapter.isDeletion()){
+                    Toast.makeText(view.getContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(view.getContext(), "Add new node", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity().getApplicationContext(), WriteNote.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -62,7 +69,7 @@ public class DailyNotes extends Fragment {
         noteTitle[1] = "Habiba";
         noteTitle[2] = "Faiza";
         noteTitle[3] = "Yasfa";
-        noteTitle[4] = "yo";
+        noteTitle[4] = "yohahaha";
 
         noteSummery[0] = "alfsdkjlkfa dsafejdaslkjfsaldk;jfdlaskjdfksllkfdslkjdfsjlk\n" + "dskdfs\nlskdfj\nsdfklj\nsdflkjsd\nfdslkjd\nfd\nfd\nfd\nfd\nfds" +
                 "ldskjdfdlkdfsjlkdfsaj\nsdfl\nfdlk\ndsflkj\ndsfklj\ndsflkj\nlast";
