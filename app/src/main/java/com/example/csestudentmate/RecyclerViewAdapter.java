@@ -70,7 +70,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
                     isChecked[i] = true;
                 }
 
-                for(int index = 0; index < title.length(); index++){
+                for(int index = 0; index < noteTitle.length; index++){
                     if(isChecked[index]){
                         anyItemChecked = true;
                         break;
