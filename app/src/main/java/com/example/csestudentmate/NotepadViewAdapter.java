@@ -1,6 +1,5 @@
 package com.example.csestudentmate;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -13,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.ViewHolder> {
     private String[] noteTitle;
     private String[] noteDescription;
     private boolean[] isChecked;
@@ -23,7 +22,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
 
 
     // Constructor
-    public RecyclerViewAdapter(FragmentActivity fragmentActivity, String[] noteTitle, String[] noteDescription, FloatingActionButton addNote) {
+    public NotepadViewAdapter(FragmentActivity fragmentActivity, String[] noteTitle, String[] noteDescription, FloatingActionButton addNote) {
         this.fragmentActivity = fragmentActivity;
         this.noteTitle = noteTitle;
         this.noteDescription = noteDescription;
@@ -35,7 +34,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
 
     @NonNull
     @Override
-    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public NotepadViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         CardView cardView = (CardView) LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.notepad_view,viewGroup, false);
         return new ViewHolder(cardView);
     }
