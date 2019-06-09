@@ -1,5 +1,7 @@
 package com.example.csestudentmate;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,6 +50,11 @@ public class ShowNote extends AppCompatActivity implements View.OnClickListener 
         int id = v.getId();
         if(id == R.id.editNoteId || id == R.id.showNoteTitleId || id == R.id.descriptionTextId){
             Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), WriteNote.class);
+            intent.putExtra("toolbarName", "Edit Note");
+            intent.putExtra("title", title);
+            intent.putExtra("description", description);
+            startActivity(intent);
         }
     }
 }
