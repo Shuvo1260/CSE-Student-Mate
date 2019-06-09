@@ -128,12 +128,13 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         if(v.getId() == R.id.signInId){
             Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            finish();
         }else if(v.getId() == R.id.forgetPasswordId){
             Toast.makeText(getApplicationContext(), "Forget Password", Toast.LENGTH_SHORT).show();
         }else if(v.getId() == R.id.createNewAccountId){
             Intent intent = new Intent(this, RegistrationPage.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }

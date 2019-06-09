@@ -5,12 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class ShowNote extends AppCompatActivity implements View.OnClickListener {
 
-    private CardView titleCardView, descriptionCardView;
+    private CardView titleCardView;
     private TextView titleTextView, descriptionTextView;
     private String title, description;
     private FloatingActionButton editNoteButton;
@@ -24,7 +25,6 @@ public class ShowNote extends AppCompatActivity implements View.OnClickListener 
         getSupportActionBar().setTitle("Note");
 
         titleCardView = findViewById(R.id.showNoteTitleId);
-        descriptionCardView = findViewById(R.id.showNoteDescriptionId);
 
         titleTextView = findViewById(R.id.titleTextId);
         descriptionTextView = findViewById(R.id.descriptionTextId);
@@ -39,14 +39,14 @@ public class ShowNote extends AppCompatActivity implements View.OnClickListener 
         descriptionTextView.setText(description);
 
         titleCardView.setOnClickListener(this);
-        descriptionCardView.setOnClickListener(this);
+        descriptionTextView.setOnClickListener(this);
         editNoteButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if(id == R.id.editNoteId || id == R.id.showNoteTitleId || id == R.id.showNoteDescriptionId){
+        if(id == R.id.editNoteId || id == R.id.showNoteTitleId || id == R.id.descriptionTextId){
             Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
         }
     }
