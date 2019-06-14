@@ -1,9 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Home.NotepadPage.WriteNote">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/_44sdp">
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/_5sdp"
+        >
+
+        <EditText
+            android:id="@+id/titleId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:textStyle="bold"
+            android:textSize="@dimen/_22sdp"
+            android:hint="Title"
+            android:padding="@dimen/_5sdp"
+            android:layout_margin="@dimen/_5sdp"
+            />
+
+        <EditText
+            android:id="@+id/descriptionId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:textSize="@dimen/_12sdp"
+            android:padding="@dimen/_5sdp"
+            android:hint="Note"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            />
+
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/_20sdp"
+        android:src="@drawable/ic_save"
+        android:backgroundTint="@color/colorPrimaryDark"
+        />
+
+</android.support.design.widget.CoordinatorLayout>
