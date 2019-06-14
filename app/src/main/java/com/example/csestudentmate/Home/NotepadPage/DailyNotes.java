@@ -47,11 +47,12 @@ public class DailyNotes extends Fragment {
         addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Toast.makeText(view.getContext(), "Add new node", Toast.LENGTH_SHORT).show();
                 if(notepadViewAdapter.isDeletion()){
                     Toast.makeText(view.getContext(), "Deleted", Toast.LENGTH_SHORT).show();
                 }else{
+                    Toast.makeText(view.getContext(), "Add new node", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getActivity().getApplicationContext(), WriteNote.class);
-                    intent.putExtra("toolbarName", "Write Note");
                     startActivity(intent);
                 }
             }
