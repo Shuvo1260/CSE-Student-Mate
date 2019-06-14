@@ -1,15 +1,15 @@
-package com.example.csestudentmate;
+package com.example.csestudentmate.Home.NotepadPage;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.csestudentmate.R;
 
 public class ShowNote extends AppCompatActivity implements View.OnClickListener {
 

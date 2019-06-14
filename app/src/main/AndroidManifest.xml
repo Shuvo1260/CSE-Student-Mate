@@ -16,28 +16,28 @@
         android:roundIcon="@drawable/logo_colorful"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WriteNote"></activity>
+        <activity android:name=".Home.NotepadPage.WriteNote"></activity>
         <activity
-            android:name=".ShowNote"
+            android:name=".Home.NotepadPage.ShowNote"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".Help" />
-        <activity android:name=".Feedback" />
-        <activity android:name=".Profile" />
+        <activity android:name=".Activity.HelpActivity.Help" />
+        <activity android:name=".Activity.FeedbackActivity.Feedback" />
+        <activity android:name=".Activity.ProfileActivity.Profile" />
         <activity
             android:name=".RegistrationPage"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginPage"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/MainActivityTheme">
+            android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+            <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/MainActivityTheme"/>
     </application>
 
 </manifest>

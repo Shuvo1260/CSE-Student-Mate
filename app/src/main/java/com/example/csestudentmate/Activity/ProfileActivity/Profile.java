@@ -1,13 +1,15 @@
-package com.example.csestudentmate;
+package com.example.csestudentmate.Activity.ProfileActivity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Help extends AppCompatActivity {
+import com.example.csestudentmate.R;
+
+public class Profile extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
+        setContentView(R.layout.activity_profile);
     }
 }

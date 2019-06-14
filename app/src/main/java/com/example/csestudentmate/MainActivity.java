@@ -1,28 +1,25 @@
 package com.example.csestudentmate;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
-import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.csestudentmate.Activity.FeedbackActivity.Feedback;
+import com.example.csestudentmate.Activity.HelpActivity.Help;
+import com.example.csestudentmate.Activity.ProfileActivity.Profile;
+import com.example.csestudentmate.Class.Class;
+import com.example.csestudentmate.Home.Home;
+import com.example.csestudentmate.NUResult.NU_Result;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar toolbar;

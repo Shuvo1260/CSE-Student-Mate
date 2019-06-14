@@ -1,9 +1,11 @@
-package com.example.csestudentmate;
+package com.example.csestudentmate.Home.NotepadPage;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
+
+import com.example.csestudentmate.R;
 
 public class WriteNote extends AppCompatActivity {
 

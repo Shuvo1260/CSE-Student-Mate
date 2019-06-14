@@ -16,6 +16,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.csestudentmate.R;
+
 import java.util.regex.Pattern;
 
 public class RegistrationPage extends AppCompatActivity implements View.OnFocusChangeListener {

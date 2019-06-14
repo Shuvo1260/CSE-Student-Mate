@@ -1,4 +1,4 @@
-package com.example.csestudentmate;
+package com.example.csestudentmate.Home.Adapter;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.ViewHolder> {
+import com.example.csestudentmate.Home.NotepadPage.ShowNote;
+import com.example.csestudentmate.R;
+
+public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.ViewHolder> {
     private String[] noteTitle;
     private String[] noteDescription;
     private boolean[] isChecked;

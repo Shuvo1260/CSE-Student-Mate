@@ -1,4 +1,4 @@
-package com.example.csestudentmate;
+package com.example.csestudentmate.Adapter;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class PageAdapter extends FragmentPagerAdapter {
+public class PageAdapter extends FragmentPagerAdapter {
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private List<String> fragmentTitle = new ArrayList<String>();
 
