@@ -12,24 +12,38 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.csestudentmate.Home.NotepadPage.Features.Note;
 import com.example.csestudentmate.Home.NotepadPage.Features.ShowNote;
 import com.example.csestudentmate.R;
 
+import java.util.List;
+
 public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.ViewHolder> {
-    private String[] noteTitle;
-    private String[] noteDescription;
+//    private String[] noteTitle;
+//    private String[] noteDescription;
+
+    private List<Note> noteList;
     private boolean[] isChecked;
     private boolean anyItemChecked;
     private FragmentActivity fragmentActivity;
     private FloatingActionButton floatingActionButton;
 
 
-    // Constructor
-    public NotepadViewAdapter(FragmentActivity fragmentActivity, String[] noteTitle, String[] noteDescription, FloatingActionButton addNote) {
+//    public NotepadViewAdapter(FragmentActivity fragmentActivity, String[] noteTitle, String[] noteDescription, FloatingActionButton addNote) {
+//        this.fragmentActivity = fragmentActivity;
+//        this.noteTitle = noteTitle;
+//        this.noteDescription = noteDescription;
+//        isChecked = new boolean[noteTitle.length];
+//        anyItemChecked = false;
+//        floatingActionButton = addNote;
+//    }
+
+    /** Constructor
+     */
+    public NotepadViewAdapter(FragmentActivity fragmentActivity, List<Note> noteList, FloatingActionButton addNote) {
         this.fragmentActivity = fragmentActivity;
-        this.noteTitle = noteTitle;
-        this.noteDescription = noteDescription;
-        isChecked = new boolean[noteTitle.length];
+        this.noteList = noteList;
+        isChecked = new boolean[noteList.size()];
         anyItemChecked = false;
         floatingActionButton = addNote;
     }
@@ -52,16 +66,16 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
         title = cardView.findViewById(R.id.titleId);
         Description = cardView.findViewById(R.id.summeryId);
 
-        title.setText(noteTitle[i]);
-        Description.setText(noteDescription[i]);
+        title.setText(noteList.get(i).getTitle());
+        Description.setText(noteList.get(i).getNote());
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!isChecked[i] && !anyItemChecked){
                     Intent intent = new Intent(fragmentActivity, ShowNote.class);
-                    intent.putExtra("title", noteTitle[i]);
-                    intent.putExtra("description", noteDescription[i]);
+                    intent.putExtra("title", noteList.get(i).getTitle());
+                    intent.putExtra("description", noteList.get(i).getTitle());
                     fragmentActivity.startActivity(intent);
                 }
                 else if(isChecked[i] && anyItemChecked){
@@ -72,7 +86,7 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
                     isChecked[i] = true;
                 }
 
-                for(int index = 0; index < noteTitle.length; index++){
+                for(int index = 0; index < noteList.size(); index++){
                     if(isChecked[index]){
                         anyItemChecked = true;
                         break;
@@ -105,10 +119,73 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
         });
 
     }
+//    @Override
+//    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
+//
+//        final CardView cardView = viewHolder.cardView;
+//
+//        final TextView title, Description;
+//
+//        title = cardView.findViewById(R.id.titleId);
+//        Description = cardView.findViewById(R.id.summeryId);
+//
+//        title.setText(noteTitle[i]);
+//        Description.setText(noteDescription[i]);
+//
+//        cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(!isChecked[i] && !anyItemChecked){
+//                    Intent intent = new Intent(fragmentActivity, ShowNote.class);
+//                    intent.putExtra("title", noteTitle[i]);
+//                    intent.putExtra("description", noteDescription[i]);
+//                    fragmentActivity.startActivity(intent);
+//                }
+//                else if(isChecked[i] && anyItemChecked){
+//                    cardView.setCardBackgroundColor(Color.WHITE);
+//                    isChecked[i] = false;
+//                }else if(anyItemChecked){
+//                    cardView.setCardBackgroundColor(Color.GRAY);
+//                    isChecked[i] = true;
+//                }
+//
+//                for(int index = 0; index < noteTitle.length; index++){
+//                    if(isChecked[index]){
+//                        anyItemChecked = true;
+//                        break;
+//                    }else{
+//                        anyItemChecked = false;
+//                    }
+//                }
+//
+//                if(!anyItemChecked){
+//                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_add_white));
+//                }
+//
+//                notifyDataSetChanged();
+//            }
+//        });
+//
+//        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                if(!anyItemChecked){
+//                    cardView.setCardBackgroundColor(Color.GRAY);
+//                    isChecked[i] = true;
+//                    anyItemChecked = true;
+//                    notifyDataSetChanged();
+//                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_delete_white));
+//                }
+//
+//                return true;
+//            }
+//        });
+//
+//    }
 
     @Override
     public int getItemCount() {
-        return noteTitle.length;
+        return noteList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

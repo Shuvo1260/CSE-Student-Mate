@@ -14,6 +14,9 @@ import android.widget.Toast;
 import com.example.csestudentmate.Home.NotepadPage.Adapter.NotepadViewAdapter;
 import com.example.csestudentmate.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DailyNotes extends Fragment {
     private FloatingActionButton addNote;
 
@@ -21,6 +24,7 @@ public class DailyNotes extends Fragment {
     private String[] noteTitle;
     private String[] noteSummery;
     private String[] noteDetails;
+    private List<Note> noteList = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,7 +40,7 @@ public class DailyNotes extends Fragment {
 
         tempMessage();
 
-        final NotepadViewAdapter notepadViewAdapter = new NotepadViewAdapter(getActivity(), noteTitle, noteSummery, addNote);
+        final NotepadViewAdapter notepadViewAdapter = new NotepadViewAdapter(getActivity(), noteList, addNote);
 
         recyclerView.setAdapter(notepadViewAdapter);
 
@@ -49,6 +53,7 @@ public class DailyNotes extends Fragment {
             public void onClick(View v) {
                 if(notepadViewAdapter.isDeletion()){
                     Toast.makeText(view.getContext(), "Deleted", Toast.LENGTH_SHORT).show();
+
                 }else{
                     Intent intent = new Intent(getActivity().getApplicationContext(), WriteNote.class);
                     intent.putExtra("toolbarName", "Write Note");
@@ -76,5 +81,11 @@ public class DailyNotes extends Fragment {
         noteSummery[2] = "Faiza is a good girl";
         noteSummery[3] = "Yasfa is a good girl";
         noteSummery[4] = "Yo is a goodfdskjlaj\nfdslk\nfdslkj\nfdsklj\ndsflkj";
+
+        Note note;
+        for(int counter = 0; counter < 5; counter++){
+            note = new Note(Integer.toString(counter+1), noteTitle[counter], noteSummery[counter]);
+            noteList.add(note);
+        }
     }
 }
