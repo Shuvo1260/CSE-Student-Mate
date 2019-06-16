@@ -1,4 +1,4 @@
-package com.example.csestudentmate.Home.NotepadPage;
+package com.example.csestudentmate.Home.NotepadPage.Features;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.csestudentmate.Home.Adapter.NotepadViewAdapter;
+import com.example.csestudentmate.Home.NotepadPage.Adapter.NotepadViewAdapter;
 import com.example.csestudentmate.R;
 
 public class DailyNotes extends Fragment {

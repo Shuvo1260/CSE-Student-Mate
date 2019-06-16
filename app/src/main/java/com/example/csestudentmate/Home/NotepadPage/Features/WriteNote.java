@@ -1,4 +1,4 @@
-package com.example.csestudentmate.Home.NotepadPage;
+package com.example.csestudentmate.Home.NotepadPage.Features;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.csestudentmate.Home.AlarmClockPage.AlarmPage;
-import com.example.csestudentmate.Home.NotepadPage.DailyNotes;
+import com.example.csestudentmate.Home.NotepadPage.Features.DailyNotes;
 import com.example.csestudentmate.Home.Reminders.Reminders;
 import com.example.csestudentmate.Adapter.PageAdapter;
 import com.example.csestudentmate.R;

@@ -16,9 +16,9 @@
         android:roundIcon="@drawable/logo_colorful"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Home.NotepadPage.WriteNote"></activity>
+        <activity android:name=".Home.NotepadPage.Features.WriteNote"></activity>
         <activity
-            android:name=".Home.NotepadPage.ShowNote"
+            android:name=".Home.NotepadPage.Features.ShowNote"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".Activity.HelpActivity.Help" />
         <activity android:name=".Activity.FeedbackActivity.Feedback" />

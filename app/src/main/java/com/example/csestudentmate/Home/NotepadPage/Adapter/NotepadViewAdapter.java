@@ -1,4 +1,4 @@
-package com.example.csestudentmate.Home.Adapter;
+package com.example.csestudentmate.Home.NotepadPage.Adapter;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.csestudentmate.Home.NotepadPage.ShowNote;
+import com.example.csestudentmate.Home.NotepadPage.Features.ShowNote;
 import com.example.csestudentmate.R;
 
 public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.ViewHolder> {
