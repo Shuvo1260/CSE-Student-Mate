@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,36 +17,31 @@ import com.example.csestudentmate.Home.NotepadPage.Features.Note;
 import com.example.csestudentmate.Home.NotepadPage.Features.ShowNote;
 import com.example.csestudentmate.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.ViewHolder> {
-//    private String[] noteTitle;
-//    private String[] noteDescription;
 
     private List<Note> noteList;
-    private boolean[] isChecked;
+    private List<Boolean> isChecked;
     private boolean anyItemChecked;
     private FragmentActivity fragmentActivity;
     private FloatingActionButton floatingActionButton;
 
 
-//    public NotepadViewAdapter(FragmentActivity fragmentActivity, String[] noteTitle, String[] noteDescription, FloatingActionButton addNote) {
-//        this.fragmentActivity = fragmentActivity;
-//        this.noteTitle = noteTitle;
-//        this.noteDescription = noteDescription;
-//        isChecked = new boolean[noteTitle.length];
-//        anyItemChecked = false;
-//        floatingActionButton = addNote;
-//    }
 
     /** Constructor
      */
     public NotepadViewAdapter(FragmentActivity fragmentActivity, List<Note> noteList, FloatingActionButton addNote) {
         this.fragmentActivity = fragmentActivity;
         this.noteList = noteList;
-        isChecked = new boolean[noteList.size()];
         anyItemChecked = false;
         floatingActionButton = addNote;
+        isChecked = new ArrayList<>();
+
+        for(int index = 0; index < noteList.size(); index++){
+            isChecked.add(false);
+        }
     }
 
 
@@ -72,22 +68,22 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isChecked[i] && !anyItemChecked){
+                if(!isChecked.get(i) && !anyItemChecked){
                     Intent intent = new Intent(fragmentActivity, ShowNote.class);
                     intent.putExtra("title", noteList.get(i).getTitle());
                     intent.putExtra("description", noteList.get(i).getTitle());
                     fragmentActivity.startActivity(intent);
                 }
-                else if(isChecked[i] && anyItemChecked){
+                else if(isChecked.get(i) && anyItemChecked){
                     cardView.setCardBackgroundColor(Color.WHITE);
-                    isChecked[i] = false;
+                    isChecked.set(i, false);
                 }else if(anyItemChecked){
-                    cardView.setCardBackgroundColor(Color.GRAY);
-                    isChecked[i] = true;
+                    cardView.setCardBackgroundColor(fragmentActivity.getColor(R.color.noteSelectionColor));
+                    isChecked.set(i, true);
                 }
 
                 for(int index = 0; index < noteList.size(); index++){
-                    if(isChecked[index]){
+                    if(isChecked.get(index)){
                         anyItemChecked = true;
                         break;
                     }else{
@@ -107,8 +103,8 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
             @Override
             public boolean onLongClick(View v) {
                 if(!anyItemChecked){
-                    cardView.setCardBackgroundColor(Color.GRAY);
-                    isChecked[i] = true;
+                    cardView.setCardBackgroundColor(fragmentActivity.getColor(R.color.noteSelectionColor));
+                    isChecked.set(i, true);
                     anyItemChecked = true;
                     notifyDataSetChanged();
                     floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_delete_white));
@@ -119,69 +115,6 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
         });
 
     }
-//    @Override
-//    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
-//
-//        final CardView cardView = viewHolder.cardView;
-//
-//        final TextView title, Description;
-//
-//        title = cardView.findViewById(R.id.titleId);
-//        Description = cardView.findViewById(R.id.summeryId);
-//
-//        title.setText(noteTitle[i]);
-//        Description.setText(noteDescription[i]);
-//
-//        cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(!isChecked[i] && !anyItemChecked){
-//                    Intent intent = new Intent(fragmentActivity, ShowNote.class);
-//                    intent.putExtra("title", noteTitle[i]);
-//                    intent.putExtra("description", noteDescription[i]);
-//                    fragmentActivity.startActivity(intent);
-//                }
-//                else if(isChecked[i] && anyItemChecked){
-//                    cardView.setCardBackgroundColor(Color.WHITE);
-//                    isChecked[i] = false;
-//                }else if(anyItemChecked){
-//                    cardView.setCardBackgroundColor(Color.GRAY);
-//                    isChecked[i] = true;
-//                }
-//
-//                for(int index = 0; index < noteTitle.length; index++){
-//                    if(isChecked[index]){
-//                        anyItemChecked = true;
-//                        break;
-//                    }else{
-//                        anyItemChecked = false;
-//                    }
-//                }
-//
-//                if(!anyItemChecked){
-//                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_add_white));
-//                }
-//
-//                notifyDataSetChanged();
-//            }
-//        });
-//
-//        cardView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                if(!anyItemChecked){
-//                    cardView.setCardBackgroundColor(Color.GRAY);
-//                    isChecked[i] = true;
-//                    anyItemChecked = true;
-//                    notifyDataSetChanged();
-//                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_delete_white));
-//                }
-//
-//                return true;
-//            }
-//        });
-//
-//    }
 
     @Override
     public int getItemCount() {
@@ -199,5 +132,10 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
 
     public boolean isDeletion(){
         return anyItemChecked;
+    }
+
+    public List<Boolean> getCheckedItem(){
+        anyItemChecked = false;
+        return isChecked;
     }
 }

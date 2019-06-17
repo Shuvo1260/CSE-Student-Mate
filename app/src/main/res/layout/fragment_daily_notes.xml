@@ -12,10 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:background="@color/lightBlue"
+        android:background="@color/offwhite"
         >
 
     </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/emptyNoteId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/notesEmptyMessage"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@android:color/holo_red_light"
+        />
 
 
     <android.support.design.widget.FloatingActionButton

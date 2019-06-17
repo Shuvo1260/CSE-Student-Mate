@@ -1,14 +1,19 @@
 package com.example.csestudentmate.Home.NotepadPage.Features;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.csestudentmate.Home.NotepadPage.Adapter.NotepadViewAdapter;
@@ -25,6 +30,7 @@ public class DailyNotes extends Fragment {
     private String[] noteSummery;
     private String[] noteDetails;
     private List<Note> noteList = new ArrayList<>();
+    private TextView emptyText;
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,6 +38,7 @@ public class DailyNotes extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_daily_notes, container, false);
 
         addNote = view.findViewById(R.id.addNoteId);
+        emptyText = view.findViewById(R.id.emptyNoteId);
 
         final RecyclerView recyclerView;
 
@@ -39,6 +46,8 @@ public class DailyNotes extends Fragment {
 
 
         tempMessage();
+
+        emptyChecker();
 
         final NotepadViewAdapter notepadViewAdapter = new NotepadViewAdapter(getActivity(), noteList, addNote);
 
@@ -52,8 +61,21 @@ public class DailyNotes extends Fragment {
             @Override
             public void onClick(View v) {
                 if(notepadViewAdapter.isDeletion()){
-                    Toast.makeText(view.getContext(), "Deleted", Toast.LENGTH_SHORT).show();
 
+                    List<Boolean> isChecked = notepadViewAdapter.getCheckedItem();
+                    for(int index = 0; index < noteList.size(); ){
+                        if(isChecked.get(index)){
+                            noteList.remove(index);
+                            isChecked.remove(index);
+                        }else{
+                            index++;
+                        }
+                    }
+                    notepadViewAdapter.notifyDataSetChanged();
+                    addNote.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
+                    recyclerView.setAdapter(notepadViewAdapter);
+                    emptyChecker();
+                    Snackbar.make(view, "Deleted", Snackbar.LENGTH_SHORT).show();
                 }else{
                     Intent intent = new Intent(getActivity().getApplicationContext(), WriteNote.class);
                     intent.putExtra("toolbarName", "Write Note");
@@ -65,6 +87,18 @@ public class DailyNotes extends Fragment {
         return view;
     }
 
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//    }
+
+    public void emptyChecker(){
+        if(!noteList.isEmpty()){
+            emptyText.setVisibility(View.GONE);
+        }else{
+            emptyText.setVisibility(View.VISIBLE);
+        }
+    }
     public void tempMessage(){
         noteTitle = new String[5];
         noteSummery = new String[5];

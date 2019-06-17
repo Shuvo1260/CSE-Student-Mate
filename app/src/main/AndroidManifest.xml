@@ -17,9 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Home.NotepadPage.Features.WriteNote"></activity>
-        <activity
-            android:name=".Home.NotepadPage.Features.ShowNote"
-            android:parentActivityName=".MainActivity" />
+        <activity android:name=".Home.NotepadPage.Features.ShowNote" />
         <activity android:name=".Activity.HelpActivity.Help" />
         <activity android:name=".Activity.FeedbackActivity.Feedback" />
         <activity android:name=".Activity.ProfileActivity.Profile" />
@@ -29,15 +27,17 @@
         <activity
             android:name=".LoginPage"
             android:screenOrientation="portrait" >
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/MainActivityTheme"/>
+            android:theme="@style/MainActivityTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

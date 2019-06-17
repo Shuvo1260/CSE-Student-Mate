@@ -21,9 +21,7 @@ public class ShowNote extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_note);
 
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.theme));
-        getSupportActionBar().setTitle("Note");
+        setActionBar("Note");
 
         titleCardView = findViewById(R.id.showNoteTitleId);
 
@@ -54,5 +52,18 @@ public class ShowNote extends AppCompatActivity implements View.OnClickListener 
             intent.putExtra("description", description);
             startActivity(intent);
         }
+    }
+
+    private void setActionBar(String toolbarName){
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.theme));
+        getSupportActionBar().setTitle(toolbarName);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 }
