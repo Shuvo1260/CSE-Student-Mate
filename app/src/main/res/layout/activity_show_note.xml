@@ -37,7 +37,7 @@
 
         </android.support.v7.widget.CardView>
         <LinearLayout
-            android:id="@+id/showNoteDescriptionId"
+            android:id="@+id/showNoteNoteId"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_5sdp"
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:id="@+id/descriptionTextId"
+                    android:id="@+id/noteTextId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_5sdp"

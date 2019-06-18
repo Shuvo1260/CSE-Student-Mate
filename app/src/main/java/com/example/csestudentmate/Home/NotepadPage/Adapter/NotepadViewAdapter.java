@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.csestudentmate.Home.NotepadPage.Features.Note;
 import com.example.csestudentmate.Home.NotepadPage.Features.ShowNote;
@@ -71,7 +72,7 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
                 if(!isChecked.get(i) && !anyItemChecked){
                     Intent intent = new Intent(fragmentActivity, ShowNote.class);
                     intent.putExtra("title", noteList.get(i).getTitle());
-                    intent.putExtra("description", noteList.get(i).getTitle());
+                    intent.putExtra("note", noteList.get(i).getNote());
                     fragmentActivity.startActivity(intent);
                 }
                 else if(isChecked.get(i) && anyItemChecked){
@@ -94,8 +95,6 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
                 if(!anyItemChecked){
                     floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_add_white));
                 }
-
-                notifyDataSetChanged();
             }
         });
 
@@ -106,7 +105,6 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
                     cardView.setCardBackgroundColor(fragmentActivity.getColor(R.color.noteSelectionColor));
                     isChecked.set(i, true);
                     anyItemChecked = true;
-                    notifyDataSetChanged();
                     floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_delete_white));
                 }
 
@@ -137,5 +135,9 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
     public List<Boolean> getCheckedItem(){
         anyItemChecked = false;
         return isChecked;
+    }
+
+    public void isCheckedBuild(){
+        isChecked.add(false);
     }
 }

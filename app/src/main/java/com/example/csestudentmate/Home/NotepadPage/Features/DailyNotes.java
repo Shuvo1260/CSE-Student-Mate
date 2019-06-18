@@ -31,6 +31,9 @@ public class DailyNotes extends Fragment {
     private String[] noteDetails;
     private List<Note> noteList = new ArrayList<>();
     private TextView emptyText;
+    private int WRITE_NOTE_ACTIVITY_CODE = 1;
+    private NotepadViewAdapter notepadViewAdapter;
+    private RecyclerView recyclerView;
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,16 +43,15 @@ public class DailyNotes extends Fragment {
         addNote = view.findViewById(R.id.addNoteId);
         emptyText = view.findViewById(R.id.emptyNoteId);
 
-        final RecyclerView recyclerView;
 
         recyclerView = view.findViewById(R.id.notePadRecyclerViewId);
 
-
+Toast.makeText(getContext(), "Create", Toast.LENGTH_SHORT).show();
         tempMessage();
 
         emptyChecker();
 
-        final NotepadViewAdapter notepadViewAdapter = new NotepadViewAdapter(getActivity(), noteList, addNote);
+        notepadViewAdapter = new NotepadViewAdapter(getActivity(), noteList, addNote);
 
         recyclerView.setAdapter(notepadViewAdapter);
 
@@ -79,7 +81,7 @@ public class DailyNotes extends Fragment {
                 }else{
                     Intent intent = new Intent(getActivity().getApplicationContext(), WriteNote.class);
                     intent.putExtra("toolbarName", "Write Note");
-                    startActivity(intent);
+                    startActivityForResult(intent, WRITE_NOTE_ACTIVITY_CODE);
                 }
             }
         });
@@ -87,7 +89,26 @@ public class DailyNotes extends Fragment {
         return view;
     }
 
-//    @Override
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == WRITE_NOTE_ACTIVITY_CODE){
+            if(resultCode == Activity.RESULT_OK){
+                String newTitle = data.getStringExtra("title");
+                String newNote = data.getStringExtra("note");
+
+                Note note = new Note(Integer.toString(1), newTitle, newNote);
+                noteList.add(note);
+                notepadViewAdapter.isCheckedBuild();
+                notepadViewAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(notepadViewAdapter);
+                Toast.makeText(getContext(), "Saved successfully", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    //    @Override
 //    public void onStart() {
 //        super.onStart();
 //    }
