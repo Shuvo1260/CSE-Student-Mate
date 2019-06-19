@@ -1,22 +1,22 @@
 package com.example.csestudentmate.Home.NotepadPage.Features;
 
 public class Note {
-    private String id;
+    private long id;
     private String title;
     private String note;
 
     public Note(){}
 
-    public Note(String id, String title, String note){
+    public Note(long id, String title, String note){
         this.id = id;
         this.title = title;
         this.note = note;
     }
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

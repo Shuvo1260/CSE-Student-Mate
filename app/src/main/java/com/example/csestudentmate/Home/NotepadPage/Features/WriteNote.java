@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.csestudentmate.Home.NotepadPage.Database.NotepadDatabaseQuery;
 import com.example.csestudentmate.R;
 
 public class WriteNote extends AppCompatActivity {
@@ -55,11 +56,21 @@ public class WriteNote extends AppCompatActivity {
 
                 Intent intent = new Intent();
 
-                intent.putExtra("title", title);
-                intent.putExtra("note", note);
+                Note newNote = new Note();
+                newNote.setTitle(title);
+                newNote.setNote(note);
 
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+                NotepadDatabaseQuery notepadDatabaseQuery = new NotepadDatabaseQuery(getApplicationContext());
+                long noteId = notepadDatabaseQuery.insert(newNote);
+
+                if(noteId != -1){
+                    intent.putExtra("id", noteId);
+                    intent.putExtra("title", title);
+                    intent.putExtra("note", note);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
+
             }
         });
 

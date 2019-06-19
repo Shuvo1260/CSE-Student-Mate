@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.csestudentmate.Home.NotepadPage.Adapter.NotepadViewAdapter;
+import com.example.csestudentmate.Home.NotepadPage.Database.NotepadDatabaseHelper;
+import com.example.csestudentmate.Home.NotepadPage.Database.NotepadDatabaseQuery;
 import com.example.csestudentmate.R;
 
 import java.util.ArrayList;
@@ -43,40 +45,40 @@ public class DailyNotes extends Fragment {
         addNote = view.findViewById(R.id.addNoteId);
         emptyText = view.findViewById(R.id.emptyNoteId);
 
-
         recyclerView = view.findViewById(R.id.notePadRecyclerViewId);
 
 Toast.makeText(getContext(), "Create", Toast.LENGTH_SHORT).show();
-        tempMessage();
 
+        retrieveNotes();
         emptyChecker();
 
         notepadViewAdapter = new NotepadViewAdapter(getActivity(), noteList, addNote);
-
         recyclerView.setAdapter(notepadViewAdapter);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
 
         addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(notepadViewAdapter.isDeletion()){
-
+                    NotepadDatabaseQuery notepadDatabaseQuery = new NotepadDatabaseQuery(getContext());
                     List<Boolean> isChecked = notepadViewAdapter.getCheckedItem();
                     for(int index = 0; index < noteList.size(); ){
                         if(isChecked.get(index)){
-                            noteList.remove(index);
-                            isChecked.remove(index);
+                            if(notepadDatabaseQuery.delete(noteList.get(index)) != -1) {
+                                noteList.remove(index);
+                                isChecked.remove(index);
+                            }
                         }else{
                             index++;
                         }
                     }
+
+                    notepadViewAdapter.isCheckedBuild(isChecked);
                     notepadViewAdapter.notifyDataSetChanged();
                     addNote.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
                     recyclerView.setAdapter(notepadViewAdapter);
                     emptyChecker();
+
                     Snackbar.make(view, "Deleted", Snackbar.LENGTH_SHORT).show();
                 }else{
                     Intent intent = new Intent(getActivity().getApplicationContext(), WriteNote.class);
@@ -95,13 +97,28 @@ Toast.makeText(getContext(), "Create", Toast.LENGTH_SHORT).show();
 
         if(requestCode == WRITE_NOTE_ACTIVITY_CODE){
             if(resultCode == Activity.RESULT_OK){
+                long noteId = data.getLongExtra("id", -1);
                 String newTitle = data.getStringExtra("title");
                 String newNote = data.getStringExtra("note");
+                List<Boolean> isChecked = new ArrayList<>();
 
-                Note note = new Note(Integer.toString(1), newTitle, newNote);
-                noteList.add(note);
-                notepadViewAdapter.isCheckedBuild();
-                notepadViewAdapter.notifyDataSetChanged();
+                Note note = new Note(noteId, newTitle, newNote);
+                if(noteList.isEmpty()){
+                    noteList.add(note);
+                }else {
+                    noteList.add(noteList.get(noteList.size() - 1));
+                    for (int index = noteList.size() - 1; index > 0; index--) {
+                        noteList.set(index, noteList.get(index - 1));
+                    }
+                    noteList.set(0, note);
+                }
+
+                for(int index = 0; index < noteList.size(); index++){
+                    isChecked.add(false);
+                }
+
+                notepadViewAdapter.isCheckedBuild(isChecked);
+                emptyChecker();
                 recyclerView.setAdapter(notepadViewAdapter);
                 Toast.makeText(getContext(), "Saved successfully", Toast.LENGTH_SHORT).show();
             }
@@ -120,27 +137,10 @@ Toast.makeText(getContext(), "Create", Toast.LENGTH_SHORT).show();
             emptyText.setVisibility(View.VISIBLE);
         }
     }
-    public void tempMessage(){
-        noteTitle = new String[5];
-        noteSummery = new String[5];
 
-        noteTitle[0] = "Shuvo";
-        noteTitle[1] = "Habiba";
-        noteTitle[2] = "Faiza";
-        noteTitle[3] = "Yasfa";
-        noteTitle[4] = "yohahaha";
-
-        noteSummery[0] = "alfsdkjlkfa dsafejdaslkjfsaldk;jfdlaskjdfksllkfdslkjdfsjlk\n" + "dskdfs\nlskdfj\nsdfklj\nsdflkjsd\nfdslkjd\nfd\nfd\nfd\nfd\nfds" +
-                "ldskjdfdlkdfsjlkdfsaj\nsdfl\nfdlk\ndsflkj\ndsfklj\ndsflkj\nlast\ndsflkj\nlast\ndsflkj\nlast\ndsflkj\nlast\ndsflkj\nlast\ndsflkj\nlast";
-        noteSummery[1] = "Habiba is a good girl";
-        noteSummery[2] = "Faiza is a good girl";
-        noteSummery[3] = "Yasfa is a good girl";
-        noteSummery[4] = "Yo is a goodfdskjlaj\nfdslk\nfdslkj\nfdsklj\ndsflkj";
-
-        Note note;
-        for(int counter = 0; counter < 5; counter++){
-            note = new Note(Integer.toString(counter+1), noteTitle[counter], noteSummery[counter]);
-            noteList.add(note);
-        }
+    public void retrieveNotes(){
+        noteList.clear();
+        NotepadDatabaseQuery notepadDatabaseQuery = new NotepadDatabaseQuery(getContext());
+        noteList.addAll(notepadDatabaseQuery.getAllNotes());
     }
 }
