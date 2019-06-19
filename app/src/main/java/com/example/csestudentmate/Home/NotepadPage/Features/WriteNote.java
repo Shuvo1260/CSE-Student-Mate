@@ -24,6 +24,7 @@ public class WriteNote extends AppCompatActivity {
     private String dialogeTitle, dialogeMessage;
     private AlertDialog alertDialog;
     private AlertDialog.Builder builder;
+    private long id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +43,7 @@ public class WriteNote extends AppCompatActivity {
 
 
         if(toolbarName.trim().matches("Edit Note")){
+            id = bundle.getLong("id");
             title = bundle.getString("title", "").toString();
             note = bundle.getString("note", "").toString();
             titleEditText.setText(title);
@@ -54,21 +56,30 @@ public class WriteNote extends AppCompatActivity {
                 title = titleEditText.getText().toString();
                 note = noteEditText.getText().toString();
 
-                Intent intent = new Intent();
-
                 Note newNote = new Note();
+                newNote.setId(id);
                 newNote.setTitle(title);
                 newNote.setNote(note);
-
+                Intent intent = new Intent();
                 NotepadDatabaseQuery notepadDatabaseQuery = new NotepadDatabaseQuery(getApplicationContext());
-                long noteId = notepadDatabaseQuery.insert(newNote);
+                if(toolbarName.trim().matches("Edit Note")){
+                    if(notepadDatabaseQuery.update(newNote) != -1) {
+                        intent.putExtra("id", newNote.getId());
+                        intent.putExtra("title", newNote.getTitle());
+                        intent.putExtra("note", newNote.getNote());
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    }
+                }else {
+                    long noteId = notepadDatabaseQuery.insert(newNote);
 
-                if(noteId != -1){
-                    intent.putExtra("id", noteId);
-                    intent.putExtra("title", title);
-                    intent.putExtra("note", note);
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
+                    if (noteId != -1) {
+                        intent.putExtra("id", noteId);
+                        intent.putExtra("title", title);
+                        intent.putExtra("note", note);
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    }
                 }
 
             }

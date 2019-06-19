@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Home.NotepadPage.Features.WriteNote"></activity>
-        <activity android:name=".Home.NotepadPage.Features.ShowNote" />
+        <activity android:name=".Home.NotepadPage.Features.ShowNote"
+            android:parentActivityName=".MainActivity"
+            />
         <activity android:name=".Activity.HelpActivity.Help" />
         <activity android:name=".Activity.FeedbackActivity.Feedback" />
         <activity android:name=".Activity.ProfileActivity.Profile" />

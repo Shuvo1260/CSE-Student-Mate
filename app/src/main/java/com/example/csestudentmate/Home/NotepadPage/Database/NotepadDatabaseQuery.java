@@ -57,7 +57,27 @@ public class NotepadDatabaseQuery {
         return noteId;
     }
 
-    public long update(long noteId){
+    public long update(Note note){
+        long noteId = -1;
+
+        NotepadDatabaseHelper notepadDatabaseHelper = NotepadDatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = notepadDatabaseHelper.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(Config.COLUMN_NOTEPAD_TITLE, note.getTitle());
+        contentValues.put(Config.COLUMN_NOTEPAD_NOTE, note.getNote());
+
+        try{
+            noteId = sqLiteDatabase.update(Config.NOTEPAD_TABLE_NAME, contentValues,
+                    Config.COLUMN_NOTEPAD_ID + " = ? ",
+                    new String[] {String.valueOf(note.getId())});
+        }catch (Exception e){
+            Toast.makeText(context, "Update Failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }finally {
+            sqLiteDatabase.close();
+        }
+
         return noteId;
     }
 

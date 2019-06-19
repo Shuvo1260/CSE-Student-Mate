@@ -1,5 +1,6 @@
 package com.example.csestudentmate.Home.NotepadPage.Features;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.csestudentmate.R;
 
@@ -16,6 +18,7 @@ public class ShowNote extends AppCompatActivity implements View.OnClickListener 
     private CardView titleCardView;
     private TextView titleTextView, noteTextView;
     private String title, note;
+    private long id;
     private FloatingActionButton editNoteButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +34,12 @@ public class ShowNote extends AppCompatActivity implements View.OnClickListener 
 
         editNoteButton = findViewById(R.id.editNoteId);
 
-        title = getIntent().getStringExtra("title");
+        Bundle bundle = getIntent().getExtras();
 
-        note = getIntent().getStringExtra("note");
+        title = bundle.getString("title");
+
+        note = bundle.getString("note");
+        id = bundle.getLong("id");
 
         titleTextView.setText(title);
         noteTextView.setText(note);
@@ -45,10 +51,11 @@ public class ShowNote extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if(id == R.id.editNoteId || id == R.id.showNoteTitleId || id == R.id.noteTextId){
+        int buttonId = v.getId();
+        if(buttonId == R.id.editNoteId ||  buttonId == R.id.showNoteTitleId || buttonId == R.id.noteTextId){
             Intent intent = new Intent(getApplicationContext(), WriteNote.class);
             intent.putExtra("toolbarName", "Edit Note");
+            intent.putExtra("id", id);
             intent.putExtra("title", title);
             intent.putExtra("note", note);
             startActivityForResult(intent, 1);
@@ -58,6 +65,17 @@ public class ShowNote extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1){
+            if(resultCode == Activity.RESULT_OK){
+                title = data.getStringExtra("title");
+                note = data.getStringExtra("note");
+
+                titleTextView.setText(title);
+                noteTextView.setText(note);
+                Toast.makeText(getApplicationContext(), "Updated Successfully", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void setActionBar(String toolbarName){

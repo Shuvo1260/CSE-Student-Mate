@@ -71,6 +71,7 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
             public void onClick(View v) {
                 if(!isChecked.get(i) && !anyItemChecked){
                     Intent intent = new Intent(fragmentActivity, ShowNote.class);
+                    intent.putExtra("id", noteList.get(i).getId());
                     intent.putExtra("title", noteList.get(i).getTitle());
                     intent.putExtra("note", noteList.get(i).getNote());
                     fragmentActivity.startActivity(intent);

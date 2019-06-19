@@ -27,10 +27,6 @@ import java.util.List;
 public class DailyNotes extends Fragment {
     private FloatingActionButton addNote;
 
-
-    private String[] noteTitle;
-    private String[] noteSummery;
-    private String[] noteDetails;
     private List<Note> noteList = new ArrayList<>();
     private TextView emptyText;
     private int WRITE_NOTE_ACTIVITY_CODE = 1;
@@ -46,8 +42,6 @@ public class DailyNotes extends Fragment {
         emptyText = view.findViewById(R.id.emptyNoteId);
 
         recyclerView = view.findViewById(R.id.notePadRecyclerViewId);
-
-Toast.makeText(getContext(), "Create", Toast.LENGTH_SHORT).show();
 
         retrieveNotes();
         emptyChecker();
@@ -124,11 +118,6 @@ Toast.makeText(getContext(), "Create", Toast.LENGTH_SHORT).show();
             }
         }
     }
-
-    //    @Override
-//    public void onStart() {
-//        super.onStart();
-//    }
 
     public void emptyChecker(){
         if(!noteList.isEmpty()){
