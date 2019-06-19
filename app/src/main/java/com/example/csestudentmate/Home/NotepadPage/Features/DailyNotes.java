@@ -54,27 +54,61 @@ public class DailyNotes extends Fragment {
             @Override
             public void onClick(View v) {
                 if(notepadViewAdapter.isDeletion()){
-                    NotepadDatabaseQuery notepadDatabaseQuery = new NotepadDatabaseQuery(getContext());
-                    List<Boolean> isChecked = notepadViewAdapter.getCheckedItem();
+                    final NotepadDatabaseQuery notepadDatabaseQuery = new NotepadDatabaseQuery(getContext());
+                    final List<Boolean> isChecked = notepadViewAdapter.getCheckedItem();
+                    final List<Boolean> tempChecked = new ArrayList<>();
+                    tempChecked.addAll(isChecked);
                     for(int index = 0; index < noteList.size(); ){
-                        if(isChecked.get(index)){
-                            if(notepadDatabaseQuery.delete(noteList.get(index)) != -1) {
-                                noteList.remove(index);
-                                isChecked.remove(index);
-                            }
-                        }else{
+                        if(tempChecked.get(index)){
+                            noteList.remove(index);
+                            tempChecked.remove(index);
+                        }else
                             index++;
-                        }
                     }
-
-                    notepadViewAdapter.isCheckedBuild(isChecked);
                     notepadViewAdapter.notifyDataSetChanged();
-                    addNote.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
                     recyclerView.setAdapter(notepadViewAdapter);
-                    emptyChecker();
 
-                    Snackbar snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(view, "Successfully Deleted", Snackbar.LENGTH_SHORT);
+
+                    snackbar.setAction("Undo", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            retrieveNotes();
+                            notepadViewAdapter.notifyDataSetChanged();
+                            for(int index = 0; index < noteList.size(); index++){
+                                isChecked.set(index,false);
+                            }
+                            notepadViewAdapter.isCheckedBuild(isChecked);
+                            recyclerView.setAdapter(notepadViewAdapter);
+                            emptyChecker();
+                        }
+                    });
+
+                    snackbar.addCallback(new Snackbar.Callback(){
+                        @Override
+                        public void onDismissed(Snackbar transientBottomBar, int event) {
+                            super.onDismissed(transientBottomBar, event);
+                            if(event != DISMISS_EVENT_ACTION){
+                                retrieveNotes();
+                                for(int index = 0; index < noteList.size(); ){
+                                    if(isChecked.get(index)){
+                                        if(notepadDatabaseQuery.delete(noteList.get(index)) != -1) {
+                                            noteList.remove(index);
+                                            isChecked.remove(index);
+                                        }
+                                    }else{
+                                        index++;
+                                    }
+                                }
+                            }
+                            notepadViewAdapter.isCheckedBuild(isChecked);
+                            recyclerView.setAdapter(notepadViewAdapter);
+                        }
+                    });
                     snackbar.show();
+
+                    addNote.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
+                    emptyChecker();
                 }else{
                     Intent intent = new Intent(getActivity().getApplicationContext(), WriteNote.class);
                     intent.putExtra("toolbarName", "Write Note");
