@@ -73,7 +73,8 @@ public class DailyNotes extends Fragment {
                     recyclerView.setAdapter(notepadViewAdapter);
                     emptyChecker();
 
-                    Snackbar.make(view, "Deleted", Snackbar.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_SHORT);
+                    snackbar.show();
                 }else{
                     Intent intent = new Intent(getActivity().getApplicationContext(), WriteNote.class);
                     intent.putExtra("toolbarName", "Write Note");
