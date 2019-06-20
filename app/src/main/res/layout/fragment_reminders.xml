@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home.Reminders.Reminders"
-    android:orientation="vertical"
+    tools:context=".Home.Reminders.Features.RemindersList"
     >
 
-    <!-- TODO: Update blank fragment layout -->
-    <CalendarView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/reminderRecyclerViewId"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:background="@color/offwhite"
         >
 
-    </CalendarView>
+    </android.support.v7.widget.RecyclerView>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/emptyReminderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/remindersEmptyMessage"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@android:color/holo_red_light"
+        />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addReminderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_white"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/_20sdp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:foregroundTint="@color/colorPrimaryDark"
+        />
+</android.support.design.widget.CoordinatorLayout>

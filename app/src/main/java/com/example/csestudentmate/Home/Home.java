@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.csestudentmate.Home.AlarmClockPage.AlarmPage;
 import com.example.csestudentmate.Home.NotepadPage.Features.DailyNotes;
-import com.example.csestudentmate.Home.Reminders.Reminders;
+import com.example.csestudentmate.Home.Reminders.Features.RemindersList;
 import com.example.csestudentmate.Adapter.PageAdapter;
 import com.example.csestudentmate.R;
 
@@ -33,7 +33,7 @@ public class Home extends Fragment {
 
         PagerAdapter homePageAdapter = new PageAdapter(getChildFragmentManager());
         ((PageAdapter) homePageAdapter).addFragment(new DailyNotes(),"Daily Notes");
-        ((PageAdapter) homePageAdapter).addFragment(new Reminders(),"Reminders");
+        ((PageAdapter) homePageAdapter).addFragment(new RemindersList(),"RemindersList");
         ((PageAdapter) homePageAdapter).addFragment(new AlarmPage(), "Alarm Clock");
 
         viewPager.setAdapter(homePageAdapter);

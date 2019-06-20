@@ -154,6 +154,15 @@ public class DailyNotes extends Fragment {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        retrieveNotes();
+        notepadViewAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(notepadViewAdapter);
+    }
+
     public void emptyChecker(){
         if(!noteList.isEmpty()){
             emptyText.setVisibility(View.GONE);

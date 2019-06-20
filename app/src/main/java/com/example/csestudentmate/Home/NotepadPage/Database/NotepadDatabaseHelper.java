@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.csestudentmate.Home.NotepadPage.Util.Config;
+import com.example.csestudentmate.Home.Util.Config;
 
 public class NotepadDatabaseHelper extends SQLiteOpenHelper {
 

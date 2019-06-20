@@ -4,11 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import com.example.csestudentmate.Home.NotepadPage.Features.Note;
-import com.example.csestudentmate.Home.NotepadPage.Util.Config;
+import com.example.csestudentmate.Home.Util.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
