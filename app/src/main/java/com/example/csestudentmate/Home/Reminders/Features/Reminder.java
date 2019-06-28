@@ -1,6 +1,7 @@
 package com.example.csestudentmate.Home.Reminders.Features;
 
 public class Reminder {
+    private long id;
     private String title;
     private String details;
     private int hour;
@@ -10,7 +11,18 @@ public class Reminder {
     private int year;
 
     public Reminder(){}
+    public Reminder(long id, String title, String details, int hour, int minute, int day, int month, int year) {
+        this.id = id;
+        this.title = title;
+        this.details = details;
+        this.hour = hour;
+        this.minute = minute;
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
     public Reminder(String title, String details, int hour, int minute, int day, int month, int year) {
+        this.id = id;
         this.title = title;
         this.details = details;
         this.hour = hour;
@@ -74,5 +86,13 @@ public class Reminder {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

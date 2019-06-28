@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.example.csestudentmate.DatabaseHelper.DatabaseHelper;
 import com.example.csestudentmate.Home.NotepadPage.Features.Note;
 import com.example.csestudentmate.Home.Util.Config;
 
@@ -24,8 +25,8 @@ public class NotepadDatabaseQuery {
     public long insert(Note note){
         long noteId = -1;
 
-        NotepadDatabaseHelper notepadDatabaseHelper = NotepadDatabaseHelper.getInstance(context);
-        SQLiteDatabase sqLiteDatabase = notepadDatabaseHelper.getWritableDatabase();
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
 
@@ -44,8 +45,8 @@ public class NotepadDatabaseQuery {
 
     public long delete(Note note){
         long noteId = -1;
-        NotepadDatabaseHelper notepadDatabaseHelper = NotepadDatabaseHelper.getInstance(context);
-        SQLiteDatabase sqLiteDatabase = notepadDatabaseHelper.getWritableDatabase();
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         try{
             noteId = sqLiteDatabase.delete(Config.NOTEPAD_TABLE_NAME, Config.COLUMN_NOTEPAD_ID + " = ? ", new String[] {String.valueOf(note.getId())});
         }catch (Exception e){
@@ -59,8 +60,8 @@ public class NotepadDatabaseQuery {
     public long update(Note note){
         long noteId = -1;
 
-        NotepadDatabaseHelper notepadDatabaseHelper = NotepadDatabaseHelper.getInstance(context);
-        SQLiteDatabase sqLiteDatabase = notepadDatabaseHelper.getWritableDatabase();
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
 
@@ -81,8 +82,8 @@ public class NotepadDatabaseQuery {
     }
 
     public List<Note> getAllNotes(){
-        NotepadDatabaseHelper notepadDatabaseHelper = NotepadDatabaseHelper.getInstance(context);
-        SQLiteDatabase sqLiteDatabase = notepadDatabaseHelper.getReadableDatabase();
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
 
         List<Note> noteList = new ArrayList<>();
 
