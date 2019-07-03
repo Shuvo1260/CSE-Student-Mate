@@ -51,7 +51,7 @@ public class ReminderDatabaseQuery {
     public long delete(Reminder reminder){
         long reminderId = -1;
 
-        ReminderDatabaseHelper reminderDatabaseHelper = ReminderDatabaseHelper.getInstance(context);
+        DatabaseHelper reminderDatabaseHelper = DatabaseHelper.getInstance(context);
         SQLiteDatabase sqLiteDatabase = reminderDatabaseHelper.getWritableDatabase();
 
 

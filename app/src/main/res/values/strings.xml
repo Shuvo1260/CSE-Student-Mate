@@ -32,4 +32,12 @@
 
     <string name="notesEmptyMessage">Note list is empty</string>
     <string name="remindersEmptyMessage">Reminder list is empty</string>
+
+    <string name="none">None</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="name">Name</string>
+    <string name="details">Details</string>
+    <string name="time">Time</string>
+    <string name="date">Date</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.example.csestudentmate.Home.Reminders.Features;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -31,7 +33,7 @@ public class RemindersList extends Fragment {
     private List<Reminder> reminderList = new ArrayList<>();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_reminders, container, false);
@@ -108,7 +110,9 @@ public class RemindersList extends Fragment {
                     floatingActionButton.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
                     emptyChecker();
                 }else{
-                    addReminder();
+//                    addReminder();
+                    ReminnderDialog reminnderDialog = new ReminnderDialog();
+                    reminnderDialog.show(getChildFragmentManager(), "Reminder");
                     retrieveReminders();
                     List<Boolean> ischecked = new ArrayList<>();
                     for(int index = 0; index < reminderList.size(); index++)
@@ -145,20 +149,22 @@ public class RemindersList extends Fragment {
     }
 
     private void addReminder(){
-        ReminderDatabaseQuery reminderDatabaseQuery = new ReminderDatabaseQuery(getContext());
-        Reminder reminder = new Reminder("Test", "Testingklkljlkjkljklklklklkl" +
-                "lkjlkjlklkj" +
-                "lkjlkjlkjlkjlkjlkjlkjlkjlkj" +
-                "lkjlkjlkjlkljlkjlklk" +
-                "kljlkjlkjlkjlkjlkj" +
-                "lkjlkjlkjlkjlklkkllklk last\nfd\nfs\nfsd\nfd\nfd\nfd\nsf\ner\ndf\nfsd\nfd\nfd\nfd\nsf\ner\ndf" +
-                "sfajlk finish\nfinish" +
-                "finish 1\n finish2", 10, 0, 12, 8, 2019);
 
-        if(reminderDatabaseQuery.insert(reminder) == -1)
-            Toast.makeText(getContext(), "Insertion Failed", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+
+//        ReminderDatabaseQuery reminderDatabaseQuery = new ReminderDatabaseQuery(getContext());
+//        Reminder reminder = new Reminder("Test", "Testingklkljlkjkljklklklklkl" +
+//                "lkjlkjlklkj" +
+//                "lkjlkjlkjlkjlkjlkjlkjlkjlkj" +
+//                "lkjlkjlkjlkljlkjlklk" +
+//                "kljlkjlkjlkjlkjlkj" +
+//                "lkjlkjlkjlkjlklkkllklk last\nfd\nfs\nfsd\nfd\nfd\nfd\nsf\ner\ndf\nfsd\nfd\nfd\nfd\nsf\ner\ndf" +
+//                "sfajlk finish\nfinish" +
+//                "finish 1\n finish2", 10, 0, 12, 8, 2019);
+//
+//        if(reminderDatabaseQuery.insert(reminder) == -1)
+//            Toast.makeText(getContext(), "Insertion Failed", Toast.LENGTH_SHORT).show();
+//        else
+//            Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
 
     }
 }
