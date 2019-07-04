@@ -1,7 +1,5 @@
 package com.example.csestudentmate.Home.Reminders.Features;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,12 +12,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.csestudentmate.Home.NotepadPage.Database.NotepadDatabaseQuery;
 import com.example.csestudentmate.Home.Reminders.Adapter.ReminderAdapter;
 import com.example.csestudentmate.Home.Reminders.Database.ReminderDatabaseQuery;
 import com.example.csestudentmate.R;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class RemindersList extends Fragment {
@@ -44,7 +43,6 @@ public class RemindersList extends Fragment {
         recyclerView = view.findViewById(R.id.reminderRecyclerViewId);
 
         retrieveReminders();
-        emptyChecker();
 
         reminderAdapter = new ReminderAdapter(getActivity(), reminderList, floatingActionButton);
         recyclerView.setAdapter(reminderAdapter);
@@ -110,15 +108,7 @@ public class RemindersList extends Fragment {
                     floatingActionButton.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
                     emptyChecker();
                 }else{
-//                    addReminder();
-                    ReminnderDialog reminnderDialog = new ReminnderDialog();
-                    reminnderDialog.show(getChildFragmentManager(), "Reminder");
-                    retrieveReminders();
-                    List<Boolean> ischecked = new ArrayList<>();
-                    for(int index = 0; index < reminderList.size(); index++)
-                        ischecked.add(index,false);
-                    reminderAdapter.isCheckedBuild(ischecked);
-                    recyclerView.setAdapter(reminderAdapter);
+                    addReminder();
                 }
             }
         });
@@ -130,12 +120,16 @@ public class RemindersList extends Fragment {
     public void onStart() {
         super.onStart();
 
+        // Loading reminders from database
         retrieveReminders();
         reminderAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(reminderAdapter);
+
+        emptyChecker();
     }
 
     public void emptyChecker(){
+        // Checking the reminder list empty or not
         if(!reminderList.isEmpty()){
             emptyText.setVisibility(View.GONE);
         }else{
@@ -143,28 +137,42 @@ public class RemindersList extends Fragment {
         }
     }
     public void retrieveReminders(){
+        // Reminders retrieving from database
         reminderList.clear();
         ReminderDatabaseQuery reminderDatabaseQuery = new ReminderDatabaseQuery(getContext());
         reminderList.addAll(reminderDatabaseQuery.getAllReminders());
     }
 
     private void addReminder(){
+        // Creating reminder dialog to get informations
+        ReminderDialog reminderDialog = new ReminderDialog();
 
+        Calendar calendar = Calendar.getInstance();
 
-//        ReminderDatabaseQuery reminderDatabaseQuery = new ReminderDatabaseQuery(getContext());
-//        Reminder reminder = new Reminder("Test", "Testingklkljlkjkljklklklklkl" +
-//                "lkjlkjlklkj" +
-//                "lkjlkjlkjlkjlkjlkjlkjlkjlkj" +
-//                "lkjlkjlkjlkljlkjlklk" +
-//                "kljlkjlkjlkjlkjlkj" +
-//                "lkjlkjlkjlkjlklkkllklk last\nfd\nfs\nfsd\nfd\nfd\nfd\nsf\ner\ndf\nfsd\nfd\nfd\nfd\nsf\ner\ndf" +
-//                "sfajlk finish\nfinish" +
-//                "finish 1\n finish2", 10, 0, 12, 8, 2019);
-//
-//        if(reminderDatabaseQuery.insert(reminder) == -1)
-//            Toast.makeText(getContext(), "Insertion Failed", Toast.LENGTH_SHORT).show();
-//        else
-//            Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+        // Setting current time in the dialog
+        String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
+        String date = DateFormat.getDateInstance().format(calendar.getTime());
+        reminderDialog.setCalendar(1, time, date);
+
+        try {
+            reminderDialog.setDissmissListener(new ReminderDialog.OnDismissListener() {
+                @Override
+                public void onDismiss(ReminderDialog reminderDialog) {
+
+                    // Updating recycler view with new reminders
+                    retrieveReminders();
+                    List<Boolean> ischecked = new ArrayList<>();
+                    for(int index = 0; index < reminderList.size(); index++)
+                        ischecked.add(index,false);
+                    reminderAdapter.isCheckedBuild(ischecked);
+                    reminderAdapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(reminderAdapter);
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        reminderDialog.show(getChildFragmentManager(), "Reminder");
 
     }
 }
