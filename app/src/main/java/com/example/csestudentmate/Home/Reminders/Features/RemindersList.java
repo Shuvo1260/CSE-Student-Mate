@@ -152,7 +152,7 @@ public class RemindersList extends Fragment {
         // Setting current time in the dialog
         String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
         String date = DateFormat.getDateInstance().format(calendar.getTime());
-        reminderDialog.setCalendar(1, time, date);
+        reminderDialog.setField(1,"", "", time, date);
 
         try {
             reminderDialog.setDissmissListener(new ReminderDialog.OnDismissListener() {
@@ -167,6 +167,7 @@ public class RemindersList extends Fragment {
                     reminderAdapter.isCheckedBuild(ischecked);
                     reminderAdapter.notifyDataSetChanged();
                     recyclerView.setAdapter(reminderAdapter);
+                    emptyChecker();
                 }
             });
         }catch (Exception e){
