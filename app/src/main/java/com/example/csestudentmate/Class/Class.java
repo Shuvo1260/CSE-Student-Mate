@@ -32,7 +32,7 @@ public class Class extends Fragment {
         tabLayout = view.findViewById(R.id.ClassTabsId);
         viewPager = view.findViewById(R.id.ClassViewPagerId);
 
-
+        // Setting Class framgments
         PagerAdapter classPageAdapter = new PageAdapter(getChildFragmentManager());
         ((PageAdapter) classPageAdapter).addFragment(new IncourseResult(), "Incourse Result");
         ((PageAdapter) classPageAdapter).addFragment(new FinalResult(), "College Final Result");

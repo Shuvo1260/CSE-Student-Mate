@@ -7,7 +7,6 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -20,13 +19,12 @@ import android.widget.Toast;
 import com.example.csestudentmate.Home.Reminders.Database.ReminderDatabaseQuery;
 import com.example.csestudentmate.R;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class ReminderDialog extends AppCompatDialogFragment implements View.OnClickListener {
     private TextView ok, cancel;
     private TextView date, time, name, details, dialogTitle;
-
+    private View dialogView;
 
     private String NameText;
     private String DetailsText;
@@ -35,74 +33,34 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
     private int Day;
     private int Month;
     private int Year;
+    private long ReminderId;
 
     private String dialogTime, dialogDate;
-
     private LinearLayout nameLayout, detailsLayout, timeLayout, dateLayout;
-
     private int requestCode;
-
     private OnDismissListener onDismissListener;
-
     private TimeDateFormatter timeDateFormatter = new TimeDateFormatter();
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        View dialogView = getActivity().getLayoutInflater().inflate(R.layout.add_update_reminder, null);
+        dialogView = layoutInflater.inflate(R.layout.add_update_reminder, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setView(dialogView);
 
-        ok = dialogView.findViewById(R.id.okId);
-        cancel = dialogView.findViewById(R.id.cancelId);
+        setFindViewById();
 
-        dialogTitle = dialogView.findViewById(R.id.dialogTitleId);
+        setOnClickListenerAtView();
 
-        name = dialogView.findViewById(R.id.reminderNameId);
-        details = dialogView.findViewById(R.id.reminderDetailsId);
-        time = dialogView.findViewById(R.id.reminderTimeId);
-        date = dialogView.findViewById(R.id.reminderDataId);
-
-        nameLayout = dialogView.findViewById(R.id.reminderNameLayoutId);
-        detailsLayout = dialogView.findViewById(R.id.reminderDetailsLayoutId);
-        timeLayout = dialogView.findViewById(R.id.reminderTimeLayoutId);
-        dateLayout = dialogView.findViewById(R.id.reminderDateLayoutId);
-
-        nameLayout.setOnClickListener(this);
-        detailsLayout.setOnClickListener(this);
-        timeLayout.setOnClickListener(this);
-        dateLayout.setOnClickListener(this);
-
-        ok.setOnClickListener(this);
-        cancel.setOnClickListener(this);
-
-        if(requestCode == 1) {
-            dialogTitle.setText("Add Reminder");
-        }else{
-            //
-        }
-
-        if(NameText.isEmpty()){
-            name.setText("None");
-        }else{
-            name.setText(NameText);
-        }
-
-        if(DetailsText.isEmpty()){
-            details.setText("None");
-        }else{
-            details.setText(DetailsText);
-        }
-
-        time.setText(dialogTime);
-        date.setText(dialogDate);
+        setDialogField();
 
         return builder.create();
     }
 
+    // Receiving values from activity
     public void setField(int requestCode, String NameText, String DetailsText, String dialogTime, String dialogDate){
         // Setting the add reminder dialog information
         this.requestCode = requestCode;
@@ -119,22 +77,21 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
         Month = calendar.get(calendar.MONTH);
         Year = calendar.get(calendar.YEAR);
     }
-    public void setField(int requestCode, String NameText, String DetailsText, int Hour, int Minute, int Day, int Month, int Year){
+    public void setField(int requestCode, Reminder reminder){
         // Setting the update reminder dialog information
         this.requestCode = requestCode;
-        this.NameText = NameText;
-        this.DetailsText = DetailsText;
+        this.NameText = reminder.getTitle();
+        this.DetailsText = reminder.getDetails();
 
-        this.Hour = Hour;
-        this.Minute = Minute;
-        this.Day = Day;
-        this.Month = Month;
-        this.Year = Year;
+        this.ReminderId = reminder.getId();
+        this.Hour = reminder.getHour();
+        this.Minute = reminder.getMinute();
+        this.Day = reminder.getDay();
+        this.Month = reminder.getMonth();
+        this.Year = reminder.getYear();
 
         this.dialogTime = timeDateFormatter.setTimeFormat(Hour, Minute);
         this.dialogDate = timeDateFormatter.setDateFormat(Day, Month, Year);
-
-
     }
 
     @Override
@@ -166,7 +123,8 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
             editTextOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    name.setText(editText.getText().toString());
+                    NameText = editText.getText().toString();
+                    name.setText(NameText);
                     editTextDialog.dismiss();
                 }
             });
@@ -179,7 +137,8 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
             editTextOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    details.setText(editText.getText().toString());
+                    DetailsText = editText.getText().toString();
+                    details.setText(DetailsText);
                     editTextDialog.dismiss();
                 }
             });
@@ -223,22 +182,97 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
             datePickerDialog.show();
 
         }else if(v.getId() == R.id.okId){
-
-            Reminder reminder = new Reminder(NameText, DetailsText, Hour, Minute, Day, Month, Year);
-
-            // Saving data into database
             ReminderDatabaseQuery reminderDatabaseQuery = new ReminderDatabaseQuery(getContext());
-            if( reminderDatabaseQuery.insert(reminder) != -1)
-                Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
 
-            dismiss();
+            if(requestCode == 1) {
+
+                Reminder reminder = new Reminder(NameText, DetailsText, Hour, Minute, Day, Month, Year);
+                // Saving data into database
+                if (reminderDatabaseQuery.insert(reminder) != -1) {
+                    Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
+                    dismiss();
+                } else {
+                    Toast.makeText(getContext(), "Operation Failed", Toast.LENGTH_SHORT).show();
+                }
+            }else if(requestCode == 2){
+
+                Reminder reminder = new Reminder(ReminderId, NameText, DetailsText, Hour, Minute, Day, Month, Year);
+                // Updating data into database
+                if(reminderDatabaseQuery.update(reminder) != -1){
+                    Toast.makeText(getContext(), "Successfully Updated", Toast.LENGTH_SHORT).show();
+                    dismiss();
+                } else {
+                    Toast.makeText(getContext(), "Operation Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
         }else if(v.getId() == R.id.cancelId){
             dismiss();
         }
     }
 
+    public Reminder getField() {
+        Reminder reminder = new Reminder(ReminderId, NameText, DetailsText, Hour, Minute, Day, Month, Year);
+        return reminder;
+    }
+
+    // Finding the views id
+    private void setFindViewById(){
+        ok = dialogView.findViewById(R.id.okId);
+        cancel = dialogView.findViewById(R.id.cancelId);
+
+        dialogTitle = dialogView.findViewById(R.id.dialogTitleId);
+
+        name = dialogView.findViewById(R.id.reminderNameId);
+        details = dialogView.findViewById(R.id.reminderDetailsId);
+        time = dialogView.findViewById(R.id.reminderTimeId);
+        date = dialogView.findViewById(R.id.reminderDataId);
+
+        nameLayout = dialogView.findViewById(R.id.reminderNameLayoutId);
+        detailsLayout = dialogView.findViewById(R.id.reminderDetailsLayoutId);
+        timeLayout = dialogView.findViewById(R.id.reminderTimeLayoutId);
+        dateLayout = dialogView.findViewById(R.id.reminderDateLayoutId);
+    }
+
+    // On ClickListener setting method
+    private void setOnClickListenerAtView(){
+        nameLayout.setOnClickListener(this);
+        detailsLayout.setOnClickListener(this);
+        timeLayout.setOnClickListener(this);
+        dateLayout.setOnClickListener(this);
+
+        ok.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+    }
+
+    // Initializing the dialog fields value
+    private void setDialogField(){
+        if(requestCode == 1) {
+            dialogTitle.setText("Add Reminder");
+        }else{
+            //
+        }
+
+        if(NameText.isEmpty()){
+            name.setText("None");
+        }else{
+            name.setText(NameText);
+        }
+
+        if(DetailsText.isEmpty()){
+            details.setText("None");
+        }else{
+            details.setText(DetailsText);
+        }
+
+        time.setText(dialogTime);
+        date.setText(dialogDate);
+    }
+
+    // Making Dismiss interface to use in RemindersList fragment
+
     public interface OnDismissListener{
-        void onDismiss(ReminderDialog reminderDialog);
+        Reminder onDismiss(ReminderDialog reminderDialog);
     }
 
     public void setDissmissListener(OnDismissListener dissmissListener) {

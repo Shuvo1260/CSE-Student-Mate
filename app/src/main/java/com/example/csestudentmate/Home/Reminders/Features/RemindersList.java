@@ -25,9 +25,11 @@ public class RemindersList extends Fragment {
 
     private FloatingActionButton floatingActionButton;
     private TextView emptyText;
-    private int WRITE_REMINDER_ACTIVITY_CODE = 1;
+    private final int ADD_REMINDER_REQUEST_CODE = 1;
+    private final int UPDATE_REMINDER_REQUEST_CODE = 2;
     private ReminderAdapter reminderAdapter;
     private RecyclerView recyclerView;
+    private View view;
 
     private List<Reminder> reminderList = new ArrayList<>();
 
@@ -35,78 +37,21 @@ public class RemindersList extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_reminders, container, false);
+        view = inflater.inflate(R.layout.fragment_reminders, container, false);
 
         floatingActionButton = view.findViewById(R.id.addReminderId);
         emptyText = view.findViewById(R.id.emptyReminderId);
-
         recyclerView = view.findViewById(R.id.reminderRecyclerViewId);
 
         retrieveReminders();
 
-        reminderAdapter = new ReminderAdapter(getActivity(), reminderList, floatingActionButton);
-        recyclerView.setAdapter(reminderAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        setRecyclerView();
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(reminderAdapter.isDeletion()){
-                    final ReminderDatabaseQuery reminderDatabaseQuery = new ReminderDatabaseQuery(getContext());
-                    final List<Boolean> isChecked = reminderAdapter.getCheckedItem();
-                    final List<Boolean> tempChecked = new ArrayList<>();
-                    tempChecked.addAll(isChecked);
-                    for(int index = 0; index < reminderList.size(); ){
-                        if(tempChecked.get(index)){
-                            reminderList.remove(index);
-                            tempChecked.remove(index);
-                        }else
-                            index++;
-                    }
-                    reminderAdapter.notifyDataSetChanged();
-                    recyclerView.setAdapter(reminderAdapter);
-
-                    Snackbar snackbar = Snackbar.make(view, "Successfully Deleted", Snackbar.LENGTH_LONG);
-
-                    snackbar.setAction("Undo", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            retrieveReminders();
-                            reminderAdapter.notifyDataSetChanged();
-                            for(int index = 0; index < reminderList.size(); index++){
-                                isChecked.set(index,false);
-                            }
-                            reminderAdapter.isCheckedBuild(isChecked);
-                            recyclerView.setAdapter(reminderAdapter);
-                            emptyChecker();
-                        }
-                    });
-
-                    snackbar.addCallback(new Snackbar.Callback(){
-                        @Override
-                        public void onDismissed(Snackbar transientBottomBar, int event) {
-                            super.onDismissed(transientBottomBar, event);
-                            if(event != DISMISS_EVENT_ACTION){
-                                retrieveReminders();
-                                for(int index = 0; index < reminderList.size(); ){
-                                    if(isChecked.get(index)){
-                                        if(reminderDatabaseQuery.delete(reminderList.get(index)) != -1) {
-                                            reminderList.remove(index);
-                                            isChecked.remove(index);
-                                        }
-                                    }else{
-                                        index++;
-                                    }
-                                }
-                            }
-                            reminderAdapter.isCheckedBuild(isChecked);
-                            recyclerView.setAdapter(reminderAdapter);
-                        }
-                    });
-                    snackbar.show();
-
-                    floatingActionButton.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
-                    emptyChecker();
+                    deleteReminder();
                 }else{
                     addReminder();
                 }
@@ -128,7 +73,8 @@ public class RemindersList extends Fragment {
         emptyChecker();
     }
 
-    public void emptyChecker(){
+    // Checking data list empty or not
+    private void emptyChecker(){
         // Checking the reminder list empty or not
         if(!reminderList.isEmpty()){
             emptyText.setVisibility(View.GONE);
@@ -136,13 +82,23 @@ public class RemindersList extends Fragment {
             emptyText.setVisibility(View.VISIBLE);
         }
     }
-    public void retrieveReminders(){
+
+    // Reminders collection method from database
+    private void retrieveReminders(){
         // Reminders retrieving from database
         reminderList.clear();
         ReminderDatabaseQuery reminderDatabaseQuery = new ReminderDatabaseQuery(getContext());
         reminderList.addAll(reminderDatabaseQuery.getAllReminders());
     }
 
+    // RecyclerView creation method
+    private void setRecyclerView(){
+        reminderAdapter = new ReminderAdapter(getActivity(), reminderList, floatingActionButton);
+        recyclerView.setAdapter(reminderAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    // New reminder creation method
     private void addReminder(){
         // Creating reminder dialog to get informations
         ReminderDialog reminderDialog = new ReminderDialog();
@@ -152,12 +108,12 @@ public class RemindersList extends Fragment {
         // Setting current time in the dialog
         String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
         String date = DateFormat.getDateInstance().format(calendar.getTime());
-        reminderDialog.setField(1,"", "", time, date);
+        reminderDialog.setField(ADD_REMINDER_REQUEST_CODE,"", "", time, date);
 
         try {
             reminderDialog.setDissmissListener(new ReminderDialog.OnDismissListener() {
                 @Override
-                public void onDismiss(ReminderDialog reminderDialog) {
+                public Reminder onDismiss(ReminderDialog reminderDialog) {
 
                     // Updating recycler view with new reminders
                     retrieveReminders();
@@ -168,6 +124,7 @@ public class RemindersList extends Fragment {
                     reminderAdapter.notifyDataSetChanged();
                     recyclerView.setAdapter(reminderAdapter);
                     emptyChecker();
+                    return null;
                 }
             });
         }catch (Exception e){
@@ -175,5 +132,68 @@ public class RemindersList extends Fragment {
         }
         reminderDialog.show(getChildFragmentManager(), "Reminder");
 
+    }
+
+    // Reminder deletion method
+    private void deleteReminder(){
+        final ReminderDatabaseQuery reminderDatabaseQuery = new ReminderDatabaseQuery(getContext());
+        final List<Boolean> isChecked = reminderAdapter.getCheckedItem();
+        final List<Boolean> tempChecked = new ArrayList<>();
+        tempChecked.addAll(isChecked);
+
+        // Temporary deletion of reminder
+        for(int index = 0; index < reminderList.size(); ){
+            if(tempChecked.get(index)){
+                reminderList.remove(index);
+                tempChecked.remove(index);
+            }else
+                index++;
+        }
+        reminderAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(reminderAdapter);
+
+        Snackbar snackbar = Snackbar.make(view, "Successfully Deleted", Snackbar.LENGTH_LONG);
+
+        // Undo operation to retrieve deleted reminder
+        snackbar.setAction("Undo", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                retrieveReminders();
+                reminderAdapter.notifyDataSetChanged();
+                for(int index = 0; index < reminderList.size(); index++){
+                    isChecked.set(index,false);
+                }
+                reminderAdapter.isCheckedBuild(isChecked);
+                recyclerView.setAdapter(reminderAdapter);
+                emptyChecker();
+            }
+        });
+
+        // Deleting reminder from the list permanently
+        snackbar.addCallback(new Snackbar.Callback(){
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                super.onDismissed(transientBottomBar, event);
+                if(event != DISMISS_EVENT_ACTION){
+                    retrieveReminders();
+                    for(int index = 0; index < reminderList.size(); ){
+                        if(isChecked.get(index)){
+                            if(reminderDatabaseQuery.delete(reminderList.get(index)) != -1) {
+                                reminderList.remove(index);
+                                isChecked.remove(index);
+                            }
+                        }else{
+                            index++;
+                        }
+                    }
+                }
+                reminderAdapter.isCheckedBuild(isChecked);
+                recyclerView.setAdapter(reminderAdapter);
+            }
+        });
+        snackbar.show();
+
+        floatingActionButton.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
+        emptyChecker();
     }
 }

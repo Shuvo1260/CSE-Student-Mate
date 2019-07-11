@@ -26,6 +26,7 @@ public class NU_Result extends Fragment {
         tabLayout = view.findViewById(R.id.nuTabsId);
         viewPager = view.findViewById(R.id.nuViewPagerId);
 
+        // Setting NU result framgments
         PageAdapter nuResultPageAdapter = new PageAdapter(getChildFragmentManager());
         nuResultPageAdapter.addFragment(new SemesterResult(), "Semester Result");
         nuResultPageAdapter.addFragment(new TotalCGPA(), "Total CGPA");

@@ -1,6 +1,5 @@
 package com.example.csestudentmate.Home.Reminders.Adapter;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -14,15 +13,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.csestudentmate.Home.NotepadPage.Features.ShowNote;
 import com.example.csestudentmate.Home.Reminders.Features.Reminder;
 import com.example.csestudentmate.Home.Reminders.Features.ReminderDialog;
 import com.example.csestudentmate.Home.Reminders.Features.TimeDateFormatter;
 import com.example.csestudentmate.R;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
@@ -94,8 +90,9 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 if(!isChecked.get(i) && !anyItemChecked){
-                    Toast.makeText(fragmentActivity.getApplicationContext(), "Clicked", Toast.LENGTH_SHORT).show();
-                    updateReminder(reminderList.get(i));
+                    // Calling update method
+                    reminderList.set(i, updateReminder(reminderList.get(i)));
+                    notifyDataSetChanged();
                 }
                 else if(isChecked.get(i) && anyItemChecked){
                     // Restoring the view of unchecked item
@@ -174,30 +171,26 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
         this.isChecked = isChecked;
     }
 
-    private void updateReminder(Reminder reminder){
+    private Reminder updateReminder(final Reminder reminder){
         // Creating reminder dialog to get informations
         ReminderDialog reminderDialog = new ReminderDialog();
 
-        int hour = reminder.getHour();
-        int minute = reminder.getMinute();
-        int day = reminder.getDay();
-        int month = reminder.getMonth();
-        int year = reminder.getYear();
-        reminderDialog.setField(1,"", "", hour, minute, day, month, year);
+        reminderDialog.setField(2,reminder);
 
         try {
             reminderDialog.setDissmissListener(new ReminderDialog.OnDismissListener() {
                 @Override
-                public void onDismiss(ReminderDialog reminderDialog) {
+                public Reminder onDismiss(ReminderDialog reminderDialog) {
 
                     // Updating recycler view with new reminders
+                    return reminderDialog.getField();
                 }
             });
         }catch (Exception e){
             Toast.makeText(fragmentActivity.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         reminderDialog.show(fragmentActivity.getSupportFragmentManager(), "Reminder");
-
+        return reminder;
     }
 }
 

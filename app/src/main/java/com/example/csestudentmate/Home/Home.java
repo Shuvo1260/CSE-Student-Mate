@@ -31,6 +31,7 @@ public class Home extends Fragment {
         tabLayout = view.findViewById(R.id.TabsId);
         viewPager = view.findViewById(R.id.ViewPagerId);
 
+        // Setting Home framgments
         PagerAdapter homePageAdapter = new PageAdapter(getChildFragmentManager());
         ((PageAdapter) homePageAdapter).addFragment(new DailyNotes(),"Daily Notes");
         ((PageAdapter) homePageAdapter).addFragment(new RemindersList(),"RemindersList");

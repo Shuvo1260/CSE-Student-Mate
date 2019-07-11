@@ -26,86 +26,30 @@ public class DailyNotes extends Fragment {
 
     private List<Note> noteList = new ArrayList<>();
     private TextView emptyText;
-    private int WRITE_NOTE_ACTIVITY_CODE = 1;
+    private final int WRITE_NOTE_ACTIVITY_CODE = 1;
     private NotepadViewAdapter notepadViewAdapter;
     private RecyclerView recyclerView;
+    private View view;
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.fragment_daily_notes, container, false);
+        view = inflater.inflate(R.layout.fragment_daily_notes, container, false);
 
         addNote = view.findViewById(R.id.addNoteId);
         emptyText = view.findViewById(R.id.emptyNoteId);
-
         recyclerView = view.findViewById(R.id.notePadRecyclerViewId);
 
         retrieveNotes();
         emptyChecker();
 
-        notepadViewAdapter = new NotepadViewAdapter(getActivity(), noteList, addNote);
-        recyclerView.setAdapter(notepadViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        setRecyclerView();
 
         addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(notepadViewAdapter.isDeletion()){
-                    final NotepadDatabaseQuery notepadDatabaseQuery = new NotepadDatabaseQuery(getContext());
-                    final List<Boolean> isChecked = notepadViewAdapter.getCheckedItem();
-                    final List<Boolean> tempChecked = new ArrayList<>();
-                    tempChecked.addAll(isChecked);
-                    for(int index = 0; index < noteList.size(); ){
-                        if(tempChecked.get(index)){
-                            noteList.remove(index);
-                            tempChecked.remove(index);
-                        }else
-                            index++;
-                    }
-                    notepadViewAdapter.notifyDataSetChanged();
-                    recyclerView.setAdapter(notepadViewAdapter);
-
-                    Snackbar snackbar = Snackbar.make(view, "Successfully Deleted", Snackbar.LENGTH_LONG);
-
-                    snackbar.setAction("Undo", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            retrieveNotes();
-                            notepadViewAdapter.notifyDataSetChanged();
-                            for(int index = 0; index < noteList.size(); index++){
-                                isChecked.set(index,false);
-                            }
-                            notepadViewAdapter.isCheckedBuild(isChecked);
-                            recyclerView.setAdapter(notepadViewAdapter);
-                            emptyChecker();
-                        }
-                    });
-
-                    snackbar.addCallback(new Snackbar.Callback(){
-                        @Override
-                        public void onDismissed(Snackbar transientBottomBar, int event) {
-                            super.onDismissed(transientBottomBar, event);
-                            if(event != DISMISS_EVENT_ACTION){
-                                retrieveNotes();
-                                for(int index = 0; index < noteList.size(); ){
-                                    if(isChecked.get(index)){
-                                        if(notepadDatabaseQuery.delete(noteList.get(index)) != -1) {
-                                            noteList.remove(index);
-                                            isChecked.remove(index);
-                                        }
-                                    }else{
-                                        index++;
-                                    }
-                                }
-                            }
-                            notepadViewAdapter.isCheckedBuild(isChecked);
-                            recyclerView.setAdapter(notepadViewAdapter);
-                        }
-                    });
-                    snackbar.show();
-
-                    addNote.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
-                    emptyChecker();
+                    deleteNotes();
                 }else{
                     Intent intent = new Intent(getActivity().getApplicationContext(), WriteNote.class);
                     intent.putExtra("toolbarName", "Write Note");
@@ -117,6 +61,7 @@ public class DailyNotes extends Fragment {
         return view;
     }
 
+    // Receiving data from write note activity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -160,7 +105,8 @@ public class DailyNotes extends Fragment {
         recyclerView.setAdapter(notepadViewAdapter);
     }
 
-    public void emptyChecker(){
+    // Checking data list empty or not
+    private void emptyChecker(){
         if(!noteList.isEmpty()){
             emptyText.setVisibility(View.GONE);
         }else{
@@ -168,9 +114,80 @@ public class DailyNotes extends Fragment {
         }
     }
 
-    public void retrieveNotes(){
+    // Notes collection method from database
+    private void retrieveNotes(){
         noteList.clear();
         NotepadDatabaseQuery notepadDatabaseQuery = new NotepadDatabaseQuery(getContext());
         noteList.addAll(notepadDatabaseQuery.getAllNotes());
+    }
+
+    // RecyclerView creation method
+    private void setRecyclerView(){
+        notepadViewAdapter = new NotepadViewAdapter(getActivity(), noteList, addNote);
+        recyclerView.setAdapter(notepadViewAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    // Notes deletion method
+    private void deleteNotes(){
+        final NotepadDatabaseQuery notepadDatabaseQuery = new NotepadDatabaseQuery(getContext());
+        final List<Boolean> isChecked = notepadViewAdapter.getCheckedItem();
+        final List<Boolean> tempChecked = new ArrayList<>();
+        tempChecked.addAll(isChecked);
+
+        // Temporary deletion from noteList
+        for(int index = 0; index < noteList.size(); ){
+            if(tempChecked.get(index)){
+                noteList.remove(index);
+                tempChecked.remove(index);
+            }else
+                index++;
+        }
+        notepadViewAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(notepadViewAdapter);
+
+        Snackbar snackbar = Snackbar.make(view, "Successfully Deleted", Snackbar.LENGTH_LONG);
+
+        // Undo operation to retrieve deleted note
+        snackbar.setAction("Undo", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                retrieveNotes();
+                notepadViewAdapter.notifyDataSetChanged();
+                for(int index = 0; index < noteList.size(); index++){
+                    isChecked.set(index,false);
+                }
+                notepadViewAdapter.isCheckedBuild(isChecked);
+                recyclerView.setAdapter(notepadViewAdapter);
+                emptyChecker();
+            }
+        });
+
+        // Deleting notes permanently
+        snackbar.addCallback(new Snackbar.Callback(){
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                super.onDismissed(transientBottomBar, event);
+                if(event != DISMISS_EVENT_ACTION){
+                    retrieveNotes();
+                    for(int index = 0; index < noteList.size(); ){
+                        if(isChecked.get(index)){
+                            if(notepadDatabaseQuery.delete(noteList.get(index)) != -1) {
+                                noteList.remove(index);
+                                isChecked.remove(index);
+                            }
+                        }else{
+                            index++;
+                        }
+                    }
+                }
+                notepadViewAdapter.isCheckedBuild(isChecked);
+                recyclerView.setAdapter(notepadViewAdapter);
+            }
+        });
+        snackbar.show();
+
+        addNote.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
+        emptyChecker();
     }
 }

@@ -73,7 +73,7 @@ public class ReminderDatabaseQuery {
         SQLiteDatabase sqLiteDatabase = reminderDatabaseHelper.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-
+        contentValues.put(Config.COLUMN_REMINDER_ID, reminder.getId());
         contentValues.put(Config.COLUMN_REMINDER_TITLE, reminder.getTitle());
         contentValues.put(Config.COLUMN_REMINDER_DETAILS, reminder.getDetails());
         contentValues.put(Config.COLUMN_REMINDER_HOUR, reminder.getHour());

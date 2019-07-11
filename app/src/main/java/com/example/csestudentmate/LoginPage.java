@@ -46,6 +46,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         forgetPassword.setOnClickListener(this);
         createNewAccount.setOnClickListener(this);
 
+        // Checking username is empty or not after changing focus
         usernameText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -58,6 +59,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
             }
         });
 
+        // Checking password is empty or not after changing focus
         passwordText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -75,6 +77,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         passwordText.addTextChangedListener(textWatcher);
     }
 
+    // Checking the editText box in every single text change
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

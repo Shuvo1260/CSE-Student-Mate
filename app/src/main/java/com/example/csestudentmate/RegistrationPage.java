@@ -40,13 +40,7 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
         getSupportActionBar().hide();
         setContentView(R.layout.activity_registration_page);
 
-        signUpButton = findViewById(R.id.signUpId);
-        fullnameText = findViewById(R.id.fullnameId);
-        usernameText = findViewById(R.id.registerUsernameId);
-        emailText = findViewById(R.id.emailId);
-        contactNoText = findViewById(R.id.contactNoId);
-        passwordText = findViewById(R.id.registerPasswordId);
-        confirmPasswordText = findViewById(R.id.confirmPasswordId);
+        setFindViewByIdAtView();
 
         // Disabling Sign up Button at the beginning
         confirmation = true;
@@ -54,19 +48,9 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
         signUpButton.setBackgroundResource(R.drawable.disable_login_button_theme);
         signUpButton.setTextColor(Color.GRAY);
 
-        fullnameText.setOnFocusChangeListener(this);
-        usernameText.setOnFocusChangeListener(this);
-        emailText.setOnFocusChangeListener(this);
-        contactNoText.setOnFocusChangeListener(this);
-        passwordText.setOnFocusChangeListener(this);
-        confirmPasswordText.setOnFocusChangeListener(this);
+        setOnFocusChangeListener();
 
-        fullnameText.addTextChangedListener(textWatcher);
-        usernameText.addTextChangedListener(textWatcher);
-        emailText.addTextChangedListener(textWatcher);
-        contactNoText.addTextChangedListener(textWatcher);
-        passwordText.addTextChangedListener(textWatcher);
-        confirmPasswordText.addTextChangedListener(textWatcher);
+        setTextWatcher();
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +60,7 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
         });
 
     }
+
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
@@ -198,5 +183,36 @@ public class RegistrationPage extends AppCompatActivity implements View.OnFocusC
 
     private boolean isValidEmailId(String email){
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+    }
+
+    // Initializing the views
+    private void setFindViewByIdAtView(){
+        signUpButton = findViewById(R.id.signUpId);
+        fullnameText = findViewById(R.id.fullnameId);
+        usernameText = findViewById(R.id.registerUsernameId);
+        emailText = findViewById(R.id.emailId);
+        contactNoText = findViewById(R.id.contactNoId);
+        passwordText = findViewById(R.id.registerPasswordId);
+        confirmPasswordText = findViewById(R.id.confirmPasswordId);
+    }
+
+    // Setting OnFocusChangeListener method in each field
+    private void setOnFocusChangeListener() {
+        fullnameText.setOnFocusChangeListener(this);
+        usernameText.setOnFocusChangeListener(this);
+        emailText.setOnFocusChangeListener(this);
+        contactNoText.setOnFocusChangeListener(this);
+        passwordText.setOnFocusChangeListener(this);
+        confirmPasswordText.setOnFocusChangeListener(this);
+    }
+
+    // Setting Text Watcher method in each field
+    private void setTextWatcher(){
+        fullnameText.addTextChangedListener(textWatcher);
+        usernameText.addTextChangedListener(textWatcher);
+        emailText.addTextChangedListener(textWatcher);
+        contactNoText.addTextChangedListener(textWatcher);
+        passwordText.addTextChangedListener(textWatcher);
+        confirmPasswordText.addTextChangedListener(textWatcher);
     }
 }

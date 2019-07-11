@@ -20,6 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static synchronized DatabaseHelper getInstance(Context context){
+        // Creating Database
         if(databaseHelper == null){
             databaseHelper = new DatabaseHelper(context);
         }
@@ -28,12 +29,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        // Creating notepad table
         String CREATE_NOTEPAD_TABLE = "CREATE TABLE " + Config.NOTEPAD_TABLE_NAME + "("
                 + Config.COLUMN_NOTEPAD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Config.COLUMN_NOTEPAD_TITLE + " TEXT, "
                 + Config.COLUMN_NOTEPAD_NOTE + " TEXT " + ")";
 
         db.execSQL(CREATE_NOTEPAD_TABLE);
+
+        // Creating reminder table
         String CREATE_REMINDER_TABLE = "CREATE TABLE " + Config.REMINDERS_TABLE_NAME + "("
                 + Config.COLUMN_REMINDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Config.COLUMN_REMINDER_TITLE + " TEXT, "
@@ -48,6 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Upgrading database
         db.execSQL("DROP TABLE IF EXISTS " + Config.NOTEPAD_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Config.REMINDERS_TABLE_NAME);
 
