@@ -96,6 +96,12 @@ public class RemindersList extends Fragment {
         reminderAdapter = new ReminderAdapter(getActivity(), reminderList, floatingActionButton);
         recyclerView.setAdapter(reminderAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        reminderAdapter.setOnReminderClickListener(new ReminderAdapter.OnReminderClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(getContext(), "Position: " + position + "Title: "+ reminderList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // New reminder creation method

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
     private boolean anyItemChecked;
     private FragmentActivity fragmentActivity;
     private FloatingActionButton floatingActionButton;
+    private OnReminderClickListener onReminderClickListener;
 
     // Constructor of the Reminder Adapter
     public ReminderAdapter(FragmentActivity fragmentActivity, List<Reminder> reminderList, FloatingActionButton floatingActionButton){
@@ -41,6 +43,13 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
         }
     }
 
+    public interface OnReminderClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnReminderClickListener(OnReminderClickListener onReminderClickListener){
+        this.onReminderClickListener = onReminderClickListener;
+    }
     @NonNull
     @Override
     public ReminderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -81,63 +90,66 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
         activationSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
+                Toast.makeText(fragmentActivity.getApplicationContext(), "Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Determining the operation that have to be taken into reminder
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isChecked.get(i) && !anyItemChecked){
-                    // Calling update method
-                    reminderList.set(i, updateReminder(reminderList.get(i)));
-                    notifyDataSetChanged();
-                }
-                else if(isChecked.get(i) && anyItemChecked){
-                    // Restoring the view of unchecked item
-                    cardView.setCardBackgroundColor(Color.WHITE);
-                    isChecked.set(i, false);
-                }else if(anyItemChecked){
-                    // Checked item view creationg
-                    cardView.setCardBackgroundColor(fragmentActivity.getColor(R.color.noteSelectionColor));
-                    isChecked.set(i, true);
-                }
 
-                // Finding any item is checked or not
-                for(int index = 0; index < reminderList.size(); index++){
-                    if(isChecked.get(index)){
-                        anyItemChecked = true;
-                        break;
-                    }else{
-                        anyItemChecked = false;
-                    }
-                }
 
-                // If any item mark as selected then the floating action button will work as a delete button
-                if(!anyItemChecked){
-                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_add_white));
-                }
-            }
-        });
-
-        // Long pressing clicker for select the reminder item
-        cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(!anyItemChecked){
-                    // Changing the selected item view
-                    cardView.setCardBackgroundColor(fragmentActivity.getColor(R.color.noteSelectionColor));
-                    isChecked.set(i, true);
-                    anyItemChecked = true;
-
-                    // Converting the floating button as delete button
-                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_delete_white));
-                }
-
-                return true;
-            }
-        });
+//
+//        // Determining the operation that have to be taken into reminder
+//        cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(!isChecked.get(i) && !anyItemChecked){
+//                    // Calling update method
+//                    reminderList.set(i, updateReminder(reminderList.get(i)));
+//                    notifyDataSetChanged();
+//                }
+//                else if(isChecked.get(i) && anyItemChecked){
+//                    // Restoring the view of unchecked item
+//                    cardView.setCardBackgroundColor(Color.WHITE);
+//                    isChecked.set(i, false);
+//                }else if(anyItemChecked){
+//                    // Checked item view creationg
+//                    cardView.setCardBackgroundColor(fragmentActivity.getColor(R.color.noteSelectionColor));
+//                    isChecked.set(i, true);
+//                }
+//
+//                // Finding any item is checked or not
+//                for(int index = 0; index < reminderList.size(); index++){
+//                    if(isChecked.get(index)){
+//                        anyItemChecked = true;
+//                        break;
+//                    }else{
+//                        anyItemChecked = false;
+//                    }
+//                }
+//
+//                // If any item mark as selected then the floating action button will work as a delete button
+//                if(!anyItemChecked){
+//                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_add_white));
+//                }
+//            }
+//        });
+//
+//        // Long pressing clicker for select the reminder item
+//        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                if(!anyItemChecked){
+//                    // Changing the selected item view
+//                    cardView.setCardBackgroundColor(fragmentActivity.getColor(R.color.noteSelectionColor));
+//                    isChecked.set(i, true);
+//                    anyItemChecked = true;
+//
+//                    // Converting the floating button as delete button
+//                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_delete_white));
+//                }
+//
+//                return true;
+//            }
+//        });
     }
 
     // Counting total item
@@ -152,6 +164,17 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
         public ViewHolder(CardView cardView) {
             super(cardView);
             this.cardView = cardView;
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onReminderClickListener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            onReminderClickListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
