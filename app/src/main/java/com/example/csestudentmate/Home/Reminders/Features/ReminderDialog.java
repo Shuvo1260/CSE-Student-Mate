@@ -34,6 +34,7 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
     private int Month;
     private int Year;
     private long ReminderId;
+    private int activated;
 
     private String dialogTime, dialogDate;
     private LinearLayout nameLayout, detailsLayout, timeLayout, dateLayout;
@@ -68,6 +69,7 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
         this.DetailsText = DetailsText;
         this.dialogTime = dialogTime;
         this.dialogDate = dialogDate;
+        this.activated = 1;
 
         final Calendar calendar = Calendar.getInstance();
 
@@ -89,6 +91,7 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
         this.Day = reminder.getDay();
         this.Month = reminder.getMonth();
         this.Year = reminder.getYear();
+        this.activated = reminder.getActivated();
 
         this.dialogTime = timeDateFormatter.setTimeFormat(Hour, Minute);
         this.dialogDate = timeDateFormatter.setDateFormat(Day, Month, Year);
@@ -186,7 +189,7 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
 
             if(requestCode == 1) {
 
-                Reminder reminder = new Reminder(NameText, DetailsText, Hour, Minute, Day, Month, Year);
+                Reminder reminder = new Reminder(NameText, DetailsText, Hour, Minute, Day, Month, Year, 1);
                 // Saving data into database
                 if (reminderDatabaseQuery.insert(reminder) != -1) {
                     Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
@@ -196,7 +199,7 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
                 }
             }else if(requestCode == 2){
 
-                Reminder reminder = new Reminder(ReminderId, NameText, DetailsText, Hour, Minute, Day, Month, Year);
+                Reminder reminder = new Reminder(ReminderId, NameText, DetailsText, Hour, Minute, Day, Month, Year, activated);
                 // Updating data into database
                 if(reminderDatabaseQuery.update(reminder) != -1){
                     Toast.makeText(getContext(), "Successfully Updated", Toast.LENGTH_SHORT).show();
@@ -212,7 +215,7 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
     }
 
     public Reminder getField() {
-        Reminder reminder = new Reminder(ReminderId, NameText, DetailsText, Hour, Minute, Day, Month, Year);
+        Reminder reminder = new Reminder(ReminderId, NameText, DetailsText, Hour, Minute, Day, Month, Year, activated);
         return reminder;
     }
 
@@ -272,7 +275,7 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
     // Making Dismiss interface to use in RemindersList fragment
 
     public interface OnDismissListener{
-        Reminder onDismiss(ReminderDialog reminderDialog);
+        void onDismiss(ReminderDialog reminderDialog);
     }
 
     public void setDissmissListener(OnDismissListener dissmissListener) {

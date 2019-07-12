@@ -47,7 +47,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Config.COLUMN_REMINDER_MINUTE + " INTEGER, "
                 + Config.COLUMN_REMINDER_DAY + " INTEGER, "
                 + Config.COLUMN_REMINDER_MONTH + " INTEGER, "
-                + Config.COLUMN_REMINDER_YEAR + " INTEGER " + ")";
+                + Config.COLUMN_REMINDER_YEAR + " INTEGER, "
+                + Config.COLUMN_REMINDER_ACTIVATED + " INTEGER " + ")";
         db.execSQL(CREATE_REMINDER_TABLE);
     }
 

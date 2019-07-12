@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.csestudentmate.Home.Reminders.Database.ReminderDatabaseQuery;
 import com.example.csestudentmate.Home.Reminders.Features.Reminder;
 import com.example.csestudentmate.Home.Reminders.Features.ReminderDialog;
 import com.example.csestudentmate.Home.Reminders.Features.TimeDateFormatter;
@@ -44,7 +46,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
     }
 
     public interface OnReminderClickListener{
-        void onItemClick(int position);
+        void onItemClick(final CardView cardView,int position, List<Boolean> isChecked);
     }
 
     public void setOnReminderClickListener(OnReminderClickListener onReminderClickListener){
@@ -87,69 +89,56 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
         detailsView.setText(reminderList.get(i).getDetails());
         timeView.setText(reminderTime);
 
+        if(reminderList.get(i).getActivated() == 1){
+            Log.d("Code: ", "Activation Code: "+ reminderList.get(i).getActivated());
+            activationSwitch.setChecked(true);
+        }else {
+            activationSwitch.setChecked(false);
+        }
+
         activationSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(fragmentActivity.getApplicationContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                int activated;
+
+                // Switch operation. Reminder activation or deactivation
+                if(activationSwitch.isChecked()){
+                    Log.d("Switch", "Switch is checked");
+                    activated = 1;
+                }else{
+                    Log.d("Switch", "Switch is Unchecked");
+                    activated = 0;
+                }
+
+                reminderList.get(i).setActivated(activated);
+
+                // Updating database
+                ReminderDatabaseQuery reminderDatabaseQuery = new ReminderDatabaseQuery(fragmentActivity.getApplicationContext());
+                if(reminderDatabaseQuery.update(reminderList.get(i)) != -1){
+                } else {
+                    Toast.makeText(fragmentActivity.getApplicationContext(), "Operation Failed", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
 
+        // Long pressing clicker for select the reminder item
+        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(!anyItemChecked){
+                    // Changing the selected item view
+                    cardView.setCardBackgroundColor(fragmentActivity.getColor(R.color.noteSelectionColor));
+                    isChecked.set(i, true);
+                    anyItemChecked = true;
 
-//
-//        // Determining the operation that have to be taken into reminder
-//        cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(!isChecked.get(i) && !anyItemChecked){
-//                    // Calling update method
-//                    reminderList.set(i, updateReminder(reminderList.get(i)));
-//                    notifyDataSetChanged();
-//                }
-//                else if(isChecked.get(i) && anyItemChecked){
-//                    // Restoring the view of unchecked item
-//                    cardView.setCardBackgroundColor(Color.WHITE);
-//                    isChecked.set(i, false);
-//                }else if(anyItemChecked){
-//                    // Checked item view creationg
-//                    cardView.setCardBackgroundColor(fragmentActivity.getColor(R.color.noteSelectionColor));
-//                    isChecked.set(i, true);
-//                }
-//
-//                // Finding any item is checked or not
-//                for(int index = 0; index < reminderList.size(); index++){
-//                    if(isChecked.get(index)){
-//                        anyItemChecked = true;
-//                        break;
-//                    }else{
-//                        anyItemChecked = false;
-//                    }
-//                }
-//
-//                // If any item mark as selected then the floating action button will work as a delete button
-//                if(!anyItemChecked){
-//                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_add_white));
-//                }
-//            }
-//        });
-//
-//        // Long pressing clicker for select the reminder item
-//        cardView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                if(!anyItemChecked){
-//                    // Changing the selected item view
-//                    cardView.setCardBackgroundColor(fragmentActivity.getColor(R.color.noteSelectionColor));
-//                    isChecked.set(i, true);
-//                    anyItemChecked = true;
-//
-//                    // Converting the floating button as delete button
-//                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_delete_white));
-//                }
-//
-//                return true;
-//            }
-//        });
+                    // Converting the floating button as delete button
+                    floatingActionButton.setImageDrawable(fragmentActivity.getDrawable(R.drawable.ic_delete_white));
+                }
+
+                return true;
+            }
+        });
     }
 
     // Counting total item
@@ -161,7 +150,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
     // Adapter view holder class
     public class ViewHolder extends RecyclerView.ViewHolder{
         private CardView cardView;
-        public ViewHolder(CardView cardView) {
+        public ViewHolder(final CardView cardView) {
             super(cardView);
             this.cardView = cardView;
             cardView.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +159,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
                     if(onReminderClickListener != null){
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
-                            onReminderClickListener.onItemClick(position);
+                            onReminderClickListener.onItemClick(cardView, position, isChecked);
                         }
                     }
                 }
@@ -189,31 +178,19 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
         return isChecked;
     }
 
+    // Any Item is checked or not builder
+    public void setAnyItemChecked(boolean anyItemChecked){
+        this.anyItemChecked = anyItemChecked;
+    }
+    // Any Item is checked or not getter
+    public boolean getAnyItemChecked(){
+        return anyItemChecked;
+    }
+
     // Building the checker
     public void isCheckedBuild(List<Boolean> isChecked){
         this.isChecked = isChecked;
     }
 
-    private Reminder updateReminder(final Reminder reminder){
-        // Creating reminder dialog to get informations
-        ReminderDialog reminderDialog = new ReminderDialog();
-
-        reminderDialog.setField(2,reminder);
-
-        try {
-            reminderDialog.setDissmissListener(new ReminderDialog.OnDismissListener() {
-                @Override
-                public Reminder onDismiss(ReminderDialog reminderDialog) {
-
-                    // Updating recycler view with new reminders
-                    return reminderDialog.getField();
-                }
-            });
-        }catch (Exception e){
-            Toast.makeText(fragmentActivity.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-        reminderDialog.show(fragmentActivity.getSupportFragmentManager(), "Reminder");
-        return reminder;
-    }
 }
 

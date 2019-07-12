@@ -1,11 +1,14 @@
 package com.example.csestudentmate.Home.Reminders.Features;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,13 +96,46 @@ public class RemindersList extends Fragment {
 
     // RecyclerView creation method
     private void setRecyclerView(){
+        // reminderAdapter setting in the recyclerView
         reminderAdapter = new ReminderAdapter(getActivity(), reminderList, floatingActionButton);
         recyclerView.setAdapter(reminderAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Determining which operation have to be taken
         reminderAdapter.setOnReminderClickListener(new ReminderAdapter.OnReminderClickListener() {
+
             @Override
-            public void onItemClick(int position) {
-                Toast.makeText(getContext(), "Position: " + position + "Title: "+ reminderList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+            public void onItemClick(final CardView cardView, final int position, final List<Boolean> isChecked) {
+                 // Determining the operation that have to be taken into reminder
+                if(!isChecked.get(position) && !reminderAdapter.getAnyItemChecked()){
+                    Log.d("Activation Code", "Code: "+ reminderList.get(position).getActivated());
+                    // Calling update method
+                    updateReminder(reminderList.get(position));
+                }
+                else if(isChecked.get(position) && reminderAdapter.getAnyItemChecked()){
+                    // Restoring the view of unchecked item
+                    cardView.setCardBackgroundColor(Color.WHITE);
+                    isChecked.set(position, false);
+                }else if(reminderAdapter.getAnyItemChecked()){
+                    // Checked item view creationg
+                    cardView.setCardBackgroundColor(getContext().getColor(R.color.noteSelectionColor));
+                    isChecked.set(position, true);
+                }
+
+                // Finding any item is checked or not
+                for(int index = 0; index < reminderList.size(); index++){
+                    if(isChecked.get(index)){
+                        reminderAdapter.setAnyItemChecked(true);
+                        break;
+                    }else{
+                        reminderAdapter.setAnyItemChecked(false);
+                    }
+                }
+
+                // If any item mark as selected then the floating action button will work as a delete button
+                if(!reminderAdapter.getAnyItemChecked()){
+                    floatingActionButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_add_white));
+                }
             }
         });
     }
@@ -119,7 +155,7 @@ public class RemindersList extends Fragment {
         try {
             reminderDialog.setDissmissListener(new ReminderDialog.OnDismissListener() {
                 @Override
-                public Reminder onDismiss(ReminderDialog reminderDialog) {
+                public void onDismiss(ReminderDialog reminderDialog) {
 
                     // Updating recycler view with new reminders
                     retrieveReminders();
@@ -130,7 +166,6 @@ public class RemindersList extends Fragment {
                     reminderAdapter.notifyDataSetChanged();
                     recyclerView.setAdapter(reminderAdapter);
                     emptyChecker();
-                    return null;
                 }
             });
         }catch (Exception e){
@@ -201,5 +236,30 @@ public class RemindersList extends Fragment {
 
         floatingActionButton.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
         emptyChecker();
+    }
+
+    // Reminder update method
+    private void updateReminder(final Reminder reminder){
+        // Creating reminder dialog to get informations
+        ReminderDialog reminderDialog = new ReminderDialog();
+
+        reminderDialog.setField(UPDATE_REMINDER_REQUEST_CODE,reminder);
+
+        try {
+            reminderDialog.setDissmissListener(new ReminderDialog.OnDismissListener() {
+                @Override
+                public void onDismiss(ReminderDialog reminderDialog) {
+
+                    // Updating recycler view with new reminders
+
+                    retrieveReminders();
+                    reminderAdapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(reminderAdapter);
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        reminderDialog.show(getChildFragmentManager(), "Reminder");
     }
 }

@@ -9,9 +9,10 @@ public class Reminder {
     private int day;
     private int month;
     private int year;
+    private int activated;
 
     public Reminder(){}
-    public Reminder(long id, String title, String details, int hour, int minute, int day, int month, int year) {
+    public Reminder(long id, String title, String details, int hour, int minute, int day, int month, int year, int activated) {
         this.id = id;
         this.title = title;
         this.details = details;
@@ -20,8 +21,9 @@ public class Reminder {
         this.day = day;
         this.month = month;
         this.year = year;
+        this.activated = activated;
     }
-    public Reminder(String title, String details, int hour, int minute, int day, int month, int year) {
+    public Reminder(String title, String details, int hour, int minute, int day, int month, int year, int activated) {
         this.id = id;
         this.title = title;
         this.details = details;
@@ -30,6 +32,7 @@ public class Reminder {
         this.day = day;
         this.month = month;
         this.year = year;
+        this.activated = activated;
     }
 
     public String getTitle() {
@@ -94,5 +97,13 @@ public class Reminder {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getActivated() {
+        return activated;
+    }
+
+    public void setActivated(int activated) {
+        this.activated = activated;
     }
 }

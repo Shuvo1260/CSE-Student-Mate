@@ -21,4 +21,5 @@ public class Config {
     public static final String COLUMN_REMINDER_DAY = "Day";
     public static final String COLUMN_REMINDER_MONTH = "Month";
     public static final String COLUMN_REMINDER_YEAR = "Year";
+    public static final String COLUMN_REMINDER_ACTIVATED = "Reminder_Activated";
 }

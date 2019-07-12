@@ -37,6 +37,7 @@ public class ReminderDatabaseQuery {
         contentValues.put(Config.COLUMN_REMINDER_DAY, reminder.getDay());
         contentValues.put(Config.COLUMN_REMINDER_MONTH, reminder.getMonth());
         contentValues.put(Config.COLUMN_REMINDER_YEAR, reminder.getYear());
+        contentValues.put(Config.COLUMN_REMINDER_ACTIVATED, reminder.getActivated());
 
         try {
             reminderId = sqLiteDatabase.insertOrThrow(Config.REMINDERS_TABLE_NAME, null, contentValues);
@@ -81,6 +82,7 @@ public class ReminderDatabaseQuery {
         contentValues.put(Config.COLUMN_REMINDER_DAY, reminder.getDay());
         contentValues.put(Config.COLUMN_REMINDER_MONTH, reminder.getMonth());
         contentValues.put(Config.COLUMN_REMINDER_YEAR, reminder.getYear());
+        contentValues.put(Config.COLUMN_REMINDER_ACTIVATED, reminder.getActivated());
 
         try {
             reminderId = sqLiteDatabase.update(Config.REMINDERS_TABLE_NAME, contentValues,
@@ -116,8 +118,9 @@ public class ReminderDatabaseQuery {
                     int day = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_REMINDER_DAY));
                     int month = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_REMINDER_MONTH));
                     int year = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_REMINDER_YEAR));
+                    int activated = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_REMINDER_ACTIVATED));
 
-                    reminderList.add(new Reminder(id, title, details, hour, minute, day, month, year));
+                    reminderList.add(new Reminder(id, title, details, hour, minute, day, month, year, activated));
                 } while (cursor.moveToPrevious());
                 return reminderList;
             }
