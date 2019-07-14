@@ -141,4 +141,8 @@ public class NotepadViewAdapter extends RecyclerView.Adapter<NotepadViewAdapter.
     public void isCheckedBuild(List<Boolean> isChecked){
         this.isChecked = isChecked;
     }
+
+    public void setAnyItemChecked(boolean anyItemChecked){
+        this.anyItemChecked = anyItemChecked;
+    }
 }

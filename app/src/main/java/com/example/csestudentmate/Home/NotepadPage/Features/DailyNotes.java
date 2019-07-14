@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,11 +134,13 @@ public class DailyNotes extends Fragment {
         final NotepadDatabaseQuery notepadDatabaseQuery = new NotepadDatabaseQuery(getContext());
         final List<Boolean> isChecked = notepadViewAdapter.getCheckedItem();
         final List<Boolean> tempChecked = new ArrayList<>();
+        final List<Note> deletedList = new ArrayList<>();
         tempChecked.addAll(isChecked);
 
         // Temporary deletion from noteList
         for(int index = 0; index < noteList.size(); ){
             if(tempChecked.get(index)){
+                deletedList.add(noteList.get(index));
                 noteList.remove(index);
                 tempChecked.remove(index);
             }else
@@ -168,18 +171,28 @@ public class DailyNotes extends Fragment {
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
                 super.onDismissed(transientBottomBar, event);
+
+                // Button view changing and setting all item is unchecked
+                addNote.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
+                notepadViewAdapter.setAnyItemChecked(false);
+
                 if(event != DISMISS_EVENT_ACTION){
-                    retrieveNotes();
-                    for(int index = 0; index < noteList.size(); ){
+
+                    // Permanent deletion
+                    for(int index = 0; index < isChecked.size(); ){
                         if(isChecked.get(index)){
-                            if(notepadDatabaseQuery.delete(noteList.get(index)) != -1) {
-                                noteList.remove(index);
-                                isChecked.remove(index);
-                            }
+                            isChecked.remove(index);
                         }else{
                             index++;
                         }
                     }
+                    // Permanent deletion from database
+                    for(int index = 0; index < deletedList.size(); index++){
+                        if(notepadDatabaseQuery.delete(deletedList.get(index)) != -1) {
+                            Log.d("Note List", "Deleted Note");
+                        }
+                    }
+                    deletedList.clear();
                 }
                 notepadViewAdapter.isCheckedBuild(isChecked);
                 recyclerView.setAdapter(notepadViewAdapter);
