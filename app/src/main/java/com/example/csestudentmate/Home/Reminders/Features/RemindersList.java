@@ -150,6 +150,8 @@ public class RemindersList extends Fragment {
         // Setting current time in the dialog
         String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
         String date = DateFormat.getDateInstance().format(calendar.getTime());
+
+        // Setting reminder dialog field
         reminderDialog.setField(ADD_REMINDER_REQUEST_CODE,"", "", time, date);
 
         try {
@@ -180,11 +182,13 @@ public class RemindersList extends Fragment {
         final ReminderDatabaseQuery reminderDatabaseQuery = new ReminderDatabaseQuery(getContext());
         final List<Boolean> isChecked = reminderAdapter.getCheckedItem();
         final List<Boolean> tempChecked = new ArrayList<>();
+        final List<Reminder> deletedList = new ArrayList<>();
         tempChecked.addAll(isChecked);
 
         // Temporary deletion of reminder
         for(int index = 0; index < reminderList.size(); ){
             if(tempChecked.get(index)){
+                deletedList.add(reminderList.get(index));
                 reminderList.remove(index);
                 tempChecked.remove(index);
             }else
@@ -215,18 +219,30 @@ public class RemindersList extends Fragment {
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
                 super.onDismissed(transientBottomBar, event);
+
+                // Button view changing and setting all item is unchecked
+                floatingActionButton.setImageDrawable(getActivity().getDrawable(R.drawable.ic_add_white));
+                reminderAdapter.setAnyItemChecked(false);
+                Log.d("Reminder Button", "Deleted Reminder");
+
                 if(event != DISMISS_EVENT_ACTION){
-                    retrieveReminders();
-                    for(int index = 0; index < reminderList.size(); ){
+                    // Permanent deletion
+                    for(int index = 0; index < isChecked.size(); ){
                         if(isChecked.get(index)){
-                            if(reminderDatabaseQuery.delete(reminderList.get(index)) != -1) {
-                                reminderList.remove(index);
-                                isChecked.remove(index);
-                            }
+                            isChecked.remove(index);
                         }else{
                             index++;
                         }
                     }
+
+                    // Permanent deletion from database
+                    for(int index = 0; index < deletedList.size(); index++){
+                        if(reminderDatabaseQuery.delete(deletedList.get(index)) != -1) {
+                            Log.d("Reminder List", "Deleted Reminder");
+                        }
+                    }
+                    deletedList.clear();
+
                 }
                 reminderAdapter.isCheckedBuild(isChecked);
                 recyclerView.setAdapter(reminderAdapter);
@@ -243,6 +259,7 @@ public class RemindersList extends Fragment {
         // Creating reminder dialog to get informations
         ReminderDialog reminderDialog = new ReminderDialog();
 
+        // Setting reminder dialog field
         reminderDialog.setField(UPDATE_REMINDER_REQUEST_CODE,reminder);
 
         try {

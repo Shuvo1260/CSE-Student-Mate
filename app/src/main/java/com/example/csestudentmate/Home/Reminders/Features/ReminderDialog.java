@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -35,6 +36,9 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
     private int Year;
     private long ReminderId;
     private int activated;
+
+    private Reminder oldReminder;
+    private CardView cardView;
 
     private String dialogTime, dialogDate;
     private LinearLayout nameLayout, detailsLayout, timeLayout, dateLayout;
@@ -84,6 +88,8 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
         this.requestCode = requestCode;
         this.NameText = reminder.getTitle();
         this.DetailsText = reminder.getDetails();
+
+        this.oldReminder = reminder;
 
         this.ReminderId = reminder.getId();
         this.Hour = reminder.getHour();
@@ -197,8 +203,13 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
                 } else {
                     Toast.makeText(getContext(), "Operation Failed", Toast.LENGTH_SHORT).show();
                 }
+
+                // Setting alarm on reminder
+                ReminderManager reminderManager = new ReminderManager(getContext(),reminder);
+                reminderManager.setReminder();
             }else if(requestCode == 2){
 
+                activated = 1;
                 Reminder reminder = new Reminder(ReminderId, NameText, DetailsText, Hour, Minute, Day, Month, Year, activated);
                 // Updating data into database
                 if(reminderDatabaseQuery.update(reminder) != -1){
@@ -207,6 +218,9 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
                 } else {
                     Toast.makeText(getContext(), "Operation Failed", Toast.LENGTH_SHORT).show();
                 }
+                ReminderManager reminderManager = new ReminderManager(getContext(), reminder);
+                reminderManager.setReminder();
+
             }
 
         }else if(v.getId() == R.id.cancelId){
@@ -253,7 +267,7 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
         if(requestCode == 1) {
             dialogTitle.setText("Add Reminder");
         }else{
-            //
+            dialogTitle.setText("Update Reminder");
         }
 
         if(NameText.isEmpty()){
@@ -270,6 +284,10 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
 
         time.setText(dialogTime);
         date.setText(dialogDate);
+    }
+
+    public void setReminderView(CardView cardView){
+        this.cardView = cardView;
     }
 
     // Making Dismiss interface to use in RemindersList fragment

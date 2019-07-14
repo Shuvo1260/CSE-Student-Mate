@@ -18,10 +18,12 @@ import android.widget.Toast;
 import com.example.csestudentmate.Home.Reminders.Database.ReminderDatabaseQuery;
 import com.example.csestudentmate.Home.Reminders.Features.Reminder;
 import com.example.csestudentmate.Home.Reminders.Features.ReminderDialog;
+import com.example.csestudentmate.Home.Reminders.Features.ReminderManager;
 import com.example.csestudentmate.Home.Reminders.Features.TimeDateFormatter;
 import com.example.csestudentmate.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
@@ -89,6 +91,22 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
         detailsView.setText(reminderList.get(i).getDetails());
         timeView.setText(reminderTime);
 
+        // Setting time into calendar
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.HOUR_OF_DAY, hour);
+        calendar.set(calendar.MINUTE, minute);
+        calendar.set(calendar.DAY_OF_MONTH, day);
+        calendar.set(calendar.MONTH, month);
+        calendar.set(calendar.YEAR, year);
+
+        // If the reminder activated but time is over then it deactivate the reminder
+        if(reminderList.get(i).getActivated() == 1 && calendar.getTimeInMillis() < Calendar.getInstance().getTimeInMillis()){
+            reminderList.get(i).setActivated(0);
+            // Updating Database to set the reminder is Old
+            ReminderDatabaseQuery reminderDatabaseQuery = new ReminderDatabaseQuery(fragmentActivity.getApplicationContext());
+            reminderDatabaseQuery.update(reminderList.get(i));
+        }
+
         if(reminderList.get(i).getActivated() == 1){
             Log.d("Code: ", "Activation Code: "+ reminderList.get(i).getActivated());
             activationSwitch.setChecked(true);
@@ -101,13 +119,23 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
             public void onClick(View v) {
                 int activated;
 
+                // Setting Reminder Manager
+                ReminderManager reminderManager = new ReminderManager(fragmentActivity.getApplicationContext(), reminderList.get(i));
+
                 // Switch operation. Reminder activation or deactivation
                 if(activationSwitch.isChecked()){
+
                     Log.d("Switch", "Switch is checked");
                     activated = 1;
+
+                    // Setting reminder on reminder manager
+                    reminderManager.setReminder();
                 }else{
                     Log.d("Switch", "Switch is Unchecked");
                     activated = 0;
+
+                    // Canceling reminder from reminder manager
+                    reminderManager.cancelReminder();
                 }
 
                 reminderList.get(i).setActivated(activated);
