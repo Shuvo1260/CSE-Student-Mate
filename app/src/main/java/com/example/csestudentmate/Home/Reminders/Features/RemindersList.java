@@ -188,6 +188,7 @@ public class RemindersList extends Fragment {
         // Temporary deletion of reminder
         for(int index = 0; index < reminderList.size(); ){
             if(tempChecked.get(index)){
+                Log.d("Temp Deletion", "Reminder Id: " + reminderList.get(index).getId());
                 deletedList.add(reminderList.get(index));
                 reminderList.remove(index);
                 tempChecked.remove(index);
@@ -239,6 +240,12 @@ public class RemindersList extends Fragment {
                     for(int index = 0; index < deletedList.size(); index++){
                         if(reminderDatabaseQuery.delete(deletedList.get(index)) != -1) {
                             Log.d("Reminder List", "Deleted Reminder");
+                            if(deletedList.get(index).getActivated() == 1) {
+                                deletedList.get(index).setActivated(0);
+                                ReminderManager reminderManager = new ReminderManager(getContext(), deletedList.get(index));
+                                reminderManager.cancelReminder();
+                                Log.d("Deletion", "Reminder Id: " + deletedList.get(index).getId());
+                            }
                         }
                     }
                     deletedList.clear();

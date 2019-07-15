@@ -196,8 +196,10 @@ public class ReminderDialog extends AppCompatDialogFragment implements View.OnCl
             if(requestCode == 1) {
 
                 Reminder reminder = new Reminder(NameText, DetailsText, Hour, Minute, Day, Month, Year, 1);
+                long id = reminderDatabaseQuery.insert(reminder);
                 // Saving data into database
-                if (reminderDatabaseQuery.insert(reminder) != -1) {
+                if (id != -1) {
+                    reminder.setId(id);
                     Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
                     dismiss();
                 } else {

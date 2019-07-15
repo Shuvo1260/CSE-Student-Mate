@@ -133,7 +133,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
                 }else{
                     Log.d("Switch", "Switch is Unchecked");
                     activated = 0;
-
+                    Log.d("Alarm cancel", "Reminder Id: " + reminderList.get(i).getId());
                     // Canceling reminder from reminder manager
                     reminderManager.cancelReminder();
                 }

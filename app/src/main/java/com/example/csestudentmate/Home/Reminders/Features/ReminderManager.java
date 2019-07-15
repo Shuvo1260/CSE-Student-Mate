@@ -63,6 +63,7 @@ public class ReminderManager {
 
         // Setting reminder into Pending Intent (context, request code, intent, flags)
         pendingReminderIntent = PendingIntent.getBroadcast(context, REMINDER_REQUEST_CODE, reminderIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
     }
 
     public void setReminder(){
@@ -76,6 +77,6 @@ public class ReminderManager {
     public void cancelReminder(){
         // Setting alarm manager to cancel existing reminder
         alarmManager.cancel(pendingReminderIntent);
-        Log.d("Cancel", "Reminder Received");
+        Log.d("Cancel", "Reminder Received: " + minute);
     }
 }
