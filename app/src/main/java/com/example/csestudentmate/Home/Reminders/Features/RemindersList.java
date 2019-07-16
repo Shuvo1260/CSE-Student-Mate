@@ -251,6 +251,10 @@ public class RemindersList extends Fragment {
                     deletedList.clear();
 
                 }
+                isChecked.clear();
+                for(int index = 0; index < reminderList.size(); index++){
+                    isChecked.add(false);
+                }
                 reminderAdapter.isCheckedBuild(isChecked);
                 recyclerView.setAdapter(reminderAdapter);
             }

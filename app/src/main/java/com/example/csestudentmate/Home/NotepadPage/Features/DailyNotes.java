@@ -194,6 +194,10 @@ public class DailyNotes extends Fragment {
                     }
                     deletedList.clear();
                 }
+                isChecked.clear();
+                for(int index = 0; index < noteList.size(); index++){
+                    isChecked.add(false);
+                }
                 notepadViewAdapter.isCheckedBuild(isChecked);
                 recyclerView.setAdapter(notepadViewAdapter);
             }
